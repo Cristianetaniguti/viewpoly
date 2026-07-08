@@ -1,0 +1,162 @@
+#### Select Linkage Group/s
+
+**Linkage Group Selection**:
+- Choose one or multiple linkage groups to visualize
+- Use the picker to select specific chromosomes
+- Results update dynamically based on selection
+
+---
+
+#### Select Phenotype/s
+
+**Phenotype Selection**:
+- Choose one or multiple traits to analyze
+- Phenotypes are loaded from your QTL analysis results
+- Multiple phenotypes can be compared side-by-side
+
+---
+
+#### QTL Profile Plot
+
+Visualize the QTL scan profile across the genome:
+
+**Parameters**:
+- **Interactive Selection**: Select triangles at the bottom to choose specific QTL for further analysis
+- **LOD Score Curve**: Displays the LOD score across the selected linkage group
+
+**Plot Features**:
+- LOD scores plotted against genetic distance (cM)
+- Triangle and horizontal line in the bottom show significant QTL positions and confidence intervals
+- Color coding by phenotype (when multiple selected)
+- Triangle markers show QTL peak positions
+
+---
+
+#### QTL Effects Plot
+
+Display estimated allelic effects for selected QTL:
+
+**Parameters**:
+- **QTL Selection**: Must select QTL from profile plot first
+- **Design**: Choose between additive effects to be shown via bars or circle, or Alleles combination
+- **Effect Size**: If `bar` is selected height and color represents effect magnitude
+- **Direction**: Positive (above zero) or negative (below zero) effects 
+- **Parents name**: Edit parents names to be displayed in the plot
+
+**Interpretation - Additive (bar)**:
+- Each bar represents one parental allele
+- Effect values show predicted phenotype change
+- Error bars indicate confidence intervals (when available)
+
+**Interpretation - Alleles Combination (circle)**:
+- Each circle represents a combination of parental alleles
+- Size and color indicate effect magnitude
+- Useful for visualizing comparisons between QTL
+
+**Interpretation - Alleles Combination**:
+- For the dominance plot, digenic effects are above the diagonal, and below the diagonal is the sum of the additive and digenic effects.
+
+---
+
+#### Haplotype Visualization
+
+Explore haplotype patterns associated with QTL:
+
+**Parameters**:
+- **QTL Selection**: Select QTL from profile plot
+- **Haplotype Filtering**: 
+  - Use "Update available haplotypes" button to refresh the list of haplotypes based on selected QTL
+  - Exclude specific haplotypes from display
+- **Haplotypes Selection**: Click on specific haplotypes to select them
+- **Submit Button**: Apply selected haplotype filters
+
+**Haplotype graphics**:
+- Haplotypes of individuals containing the selected haplotypes will be displayed
+- Individuals IDs will be displayed on the top of the graphic
+- Selected QTL positions are marked with dashed vertical lines
+
+---
+
+#### Breeding Values Table
+
+View predicted breeding values for individuals:
+
+**Table Contents**:
+- gen - Individual IDs
+- trait ID is presented in the column name
+- Breeding values per selected QTL 
+
+**Features**:
+- Sortable columns
+- Searchable by individual ID
+- Filterable by value ranges
+
+**Download Options**:
+- Click on the gray buttons to download only the visualized table
+- Click on the blue button to download the complete table with all individuals and all QTL
+- CSV format (comma-separated)
+- TSV format (tab-separated)
+
+---
+
+#### QTL Summary Table
+
+Comprehensive summary of detected QTL:
+
+**Table Contents**:
+- Trait ID
+- Linkage group
+- Position (cM and bp when available)
+- Lower and upper confidence interval bounds
+- p-value
+- heritability (h2)
+
+**Features**:
+- Sortable by any column
+- Search functionality
+- Export options
+
+**Download Options**:
+- Click on the gray buttons to download only the visualized table
+- Click on the blue button to download the complete table with all individuals and all QTL
+- CSV format
+- TSV format
+
+---
+
+#### Download Options
+
+**Image Downloads**:
+- **Formats**: PNG, TIFF, JPEG, PDF, RData
+- **Resolution**: Adjustable DPI (default: 300)
+- **Dimensions**: Custom width and height in mm
+- **Default size**: 180mm × 120mm
+
+**Data Downloads**:
+- Breeding values table
+- QTL summary table
+- Choose CSV or TSV format
+
+---
+
+#### Navigation
+
+- **Go to Input Data**: Return to upload page
+- **Go to Genome**: Navigate to genome browser view
+- **Info button**: Access this help documentation
+
+### Additional Resources
+
+**VIEWpoly Tutorial**: [https://cristianetaniguti.github.io/viewpoly_vignettes/](https://cristianetaniguti.github.io/viewpoly_vignettes/)
+
+**MAPpoly Tutorial**: [https://rpubs.com/mmollin/tetra_mappoly_vignette](https://rpubs.com/mmollin/tetra_mappoly_vignette)
+
+**QTLpoly Tutorial**: [https://gabrielgesteira.github.io/QTLpoly/docs/1-tutorial](https://gabrielgesteira.github.io/QTLpoly/docs/1-tutorial)
+
+**polyQTLR Tutorial**: [https://cran.r-project.org/web/packages/polyqtlR/vignettes/polyqtlR_vignette.html](https://cran.r-project.org/web/packages/polyqtlR/vignettes/polyqtlR_vignette.html)
+
+**polymapR Tutorial**: [https://cran.r-project.org/web/packages/polymapR/vignettes/Vignette_polymapR.html](https://cran.r-project.org/web/packages/polymapR/vignettes/Vignette_polymapR.html)
+
+**diaQTL Tutorial**: [https://jendelman.github.io/diaQTL/diaQTL_Vignette.html](https://jendelman.github.io/diaQTL/diaQTL_Vignette.html)
+
+**OneMap Tutorial**: [https://cristianetaniguti.github.io/Tutorials/onemap/](https://cristianetaniguti.github.io/Tutorials/onemap/)

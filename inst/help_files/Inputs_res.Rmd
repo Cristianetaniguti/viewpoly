@@ -1,0 +1,99 @@
+#### Data Upload Results
+
+After successfully uploading your data, the following information becomes available throughout VIEWpoly:
+
+##### Linkage Map Data
+
+- **Linkage Groups**: Number of chromosomes/linkage groups detected
+- **Markers**: Total number of markers in the map
+- **Map Length**: Total genetic distance in centiMorgans (cM)
+- **Individuals**: Number of genotyped individuals
+- **Ploidy**: Detected ploidy level
+- **Parental Information**: Parent names and dosages
+- **Phase Information**: Linkage phase configurations
+
+##### QTL Analysis Data
+
+- **Phenotypes**: List of traits analyzed
+- **QTL Detected**: Number of QTL identified per trait
+- **QTL Positions**: Genetic and physical positions of QTL
+- **LOD Scores**: Logarithm of odds scores across the genome
+- **Effect Estimates**: Allelic effects for each QTL
+- **Haplotype Information**: Phased haplotype data
+- **Breeding Values**: Predicted breeding values for individuals
+
+##### Genome Browser Data
+
+- **Assembly**: Reference genome loaded and indexed
+- **Annotation**: Gene models and features available (if annotated GFF/GTF provided)
+- **Variants**: SNP/marker positions loaded (if VCF provided)
+- **Alignments**: Read alignment tracks available (if BAM files provided)
+- **Coverage**: BigWig coverage data loaded (if BigWig provided)
+
+##### HIDECAN Data
+
+- **GWAS Tracks**: Genome-wide association results loaded
+- **Threshold**: Significance threshold applied
+- **Chromosomes**: Number of chromosomes with data
+- **Markers**: Total markers included in analysis
+- **DE Genes**: Differentially expressed genes detected
+- **Candidate Genes**: Number of candidate genes annotated
+
+---
+
+#### Data Validation
+
+VIEWpoly performs automatic validation checks:
+
+ **File Format**: Verifies file extensions and structure  
+ **Data Consistency**: Checks for matching marker names across files  
+ **Ploidy Validation**: Ensures dosage values match specified ploidy  
+ **Coordinate Systems**: Validates genetic and physical positions  
+
+---
+
+#### Reset and Resubmit
+
+- **Reset buttons**: Clear specific data types without affecting others
+- **Reset all**: Clears all uploaded data and returns to initial state
+- **Resubmit**: Upload new data to replace existing data
+
+---
+
+#### Export Options
+
+**Download VIEWpoly Dataset**: 
+
+After uploading map and QTL data, you can export a consolidated dataset in VIEWpoly format for:
+- Sharing with collaborators
+- Future sessions
+- Archival purposes
+- Integration with other tools
+
+The exported `.RData` file contains all map and QTL information but excludes large genome browser files.
+
+### Additional Resources
+
+**VIEWpoly Tutorial**: [https://cristianetaniguti.github.io/viewpoly_vignettes/](https://cristianetaniguti.github.io/viewpoly_vignettes/)
+
+**MAPpoly Tutorial**: [https://rpubs.com/mmollin/tetra_mappoly_vignette](https://rpubs.com/mmollin/tetra_mappoly_vignette)
+
+**QTLpoly Tutorial**: [https://gabrielgesteira.github.io/QTLpoly/docs/1-tutorial](https://gabrielgesteira.github.io/QTLpoly/docs/1-tutorial)
+
+**polyQTLR Tutorial**: [https://cran.r-project.org/web/packages/polyqtlR/vignettes/polyqtlR_vignette.html](https://cran.r-project.org/web/packages/polyqtlR/vignettes/polyqtlR_vignette.html)
+
+**polymapR Tutorial**: [https://cran.r-project.org/web/packages/polymapR/vignettes/Vignette_polymapR.html](https://cran.r-project.org/web/packages/polymapR/vignettes/Vignette_polymapR.html)
+
+**diaQTL Tutorial**: [https://jendelman.github.io/diaQTL/diaQTL_Vignette.html](https://jendelman.github.io/diaQTL/diaQTL_Vignette.html)
+
+**OneMap Tutorial**: [https://cristianetaniguti.github.io/Tutorials/onemap/](https://cristianetaniguti.github.io/Tutorials/onemap/)
+
+**JBrowse Documentation**: [https://jbrowse.org/jb2/](https://jbrowse.org/jb2/)
+
+**HIDECAN Documentation**: [https://plantandfoodresearch.github.io/hidecan/](https://plantandfoodresearch.github.io/hidecan/)
+
+**GWASpoly Tutorial**: [https://potatobreeding.cals.wisc.edu/software/](https://potatobreeding.cals.wisc.edu/software/)
+
+**Tools for Polyploids**: [https://www.polyploids.org/](https://www.polyploids.org/)
+
+**Breeding Insight**: [https://www.breedinginsight.org](https://www.breedinginsight.org)

@@ -1,15 +1,14 @@
 Package: viewpoly
 Title: A Shiny App to Visualize Genetic Maps and QTL Analysis in Polyploid Species
-Version: 0.4.2
+Version: 1.0.0
 Authors@R: c(
            person(given = "Cristiane",
                   family = "Taniguti",
                   role = c("aut", "cre"),
-                  email = "chtaniguti@tamu.edu"),
+                  email = "ctaniguti@ufl.edu"),
            person(given = "Gabriel",
                   family = "de Siqueira Gesteira",
-                  role = c("aut"),
-                  email = "gdesiqu@ncsu.edu"),
+                  role = c("aut")),
            person(given = "Jeekin",
                   family = "Lau",
                   role = c("aut")),
@@ -33,10 +32,12 @@ Authors@R: c(
                   role = c("ctb")),
            person(given = "Marcelo",
                   family = "Mollinari",
-                  role = c("aut"),
-                  email = "mmollin@ncsu.edu")
+                  role = c("aut")),
+           person(given = "University of Florida",
+                  family = "Breeding Insight",
+                  role = c("cph"))
            )
-Maintainer: Cristiane Taniguti <chtaniguti@tamu.edu>
+Maintainer: Cristiane Taniguti <ctaniguti@ufl.edu>
 Description: Provides a graphical user interface to integrate, visualize and explore results 
             from linkage and quantitative trait loci analysis, together with genomic information for autopolyploid 
             species. The app is meant for interactive use and allows users to optionally upload different sources 
@@ -49,9 +50,7 @@ Depends:
 Imports: 
     shiny (>= 1.6.0),
     shinyjs,
-    shinythemes,
     shinyWidgets,
-    shinydashboard,
     config (>= 0.3.1),
     golem (>= 0.3.1),
     JBrowseR,
@@ -64,20 +63,23 @@ Imports:
     vroom,
     abind,
     reshape2,
-    markdown,
     stats,
+    utils,
+    httr,
+    curl,
     hidecan,
-    purrr
-URL: https://github.com/mmollina/viewpoly
-BugReports: https://github.com/mmollina/viewpoly/issues
+    purrr,
+    bs4Dash
+URL: https://github.com/Breeding-Insight/viewpoly
+BugReports: https://github.com/Breeding-Insight/viewpoly/issues
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Suggests: 
     testthat (>= 3.0.0),
-    shinytest,
     rlang,
     pkgload,
-    vdiffr
+    vdiffr,
+    markdown
 Config/testthat/edition: 3
 Language: en-US

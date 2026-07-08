@@ -1,0 +1,88 @@
+#### VIEWpoly Citation
+
+If you use VIEWpoly in your research, please cite:
+
+Taniguti, C. H., de Siqueira Gesteira, G., Lau, J., da Silva Pereira, G., Zeng, Z.-B., Byrne, D., Riera-Lizarazu, O., & Mollinari, M. (2022). VIEWpoly: a visualization tool to integrate and explore results of polyploid genetic analysis. Journal of Open Source Software, 7(74), 4242. https://doi.org/10.21105/joss.04242
+
+---
+
+#### Linkage Mapping Software Citations
+
+##### MAPpoly
+
+Mollinari, M., & Garcia, A. A. F. (2019). Linkage Analysis and Haplotype Phasing in Experimental Autopolyploid Populations with High Ploidy Level Using Hidden Markov Models. G3: Genes|Genomes|Genetics, 9(10), 3297–3314. https://doi.org/10.1534/g3.119.400378
+
+##### polymapR
+
+Bourke, P. M., van Geest, G., Voorrips, R. E., Jansen, J., Kranenburg, T., Shahin, A., Visser, R. G. F., Arens, P., Smulders, M. J. M., & Maliepaard, C. (2018). PolymapR - Linkage analysis and genetic map construction from F 1 populations of outcrossing polyploids. Bioinformatics, 34(20), 3496–3502. https://doi.org/10.1093/bioinformatics/bty371
+
+##### OneMap
+
+Taniguti, C. H., Taniguti, L. M., Amadeu, R. R., Lau, J., Gesteira, G. de S., Oliveira, T. de P., Ferreira, G. C., Pereira, G. da S., Byrne, D., Mollinari, M., Riera-Lizarazu, O., & Garcia, A. A. F. (2022). Developing best practices for genotyping-by-sequencing analysis in the construction of linkage maps. GigaScience, 12. https://doi.org/10.1093/gigascience/giad092
+
+---
+
+#### QTL Analysis Software Citations
+
+##### QTLpoly
+
+da Silva Pereira, G., Gemenet, D. C., Mollinari, M., Olukolu, B. A., Wood, J. C., Diaz, F., Mosquera, V., Gruneberg, W. J., Khan, A., Buell, C. R., Yencho, G. C., & Zeng, Z.-B. (2020). Multiple QTL Mapping in Autopolyploids: A Random-Effect Model Approach with Application in a Hexaploid Sweetpotato Full-Sib Population. Genetics, 215(3), 579–595. https://doi.org/10.1534/genetics.120.303080
+
+##### diaQTL
+
+Amadeu, R. R., Muñoz, P. R., Zheng, C., & Endelman, J. B. (2021). QTL mapping in outbred tetraploid (and diploid) diallel populations. Genetics, 219(3). https://doi.org/10.1093/genetics/iyab124
+
+##### polyqtlR
+
+Bourke, P. M., Voorrips, R. E., Hackett, C. A., van Geest, G., Willemsen, J. H., Arens, P., Smulders, M. J. M., Visser, R. G. F., & Maliepaard, C. (2021). Detecting quantitative trait loci and exploring chromosomal pairing in autopolyploids using polyqtlR. Bioinformatics, 37(21), 3822–3829. https://doi.org/10.1093/bioinformatics/btab574
+
+###### GWASpoly
+
+Rosyara, U. R., de Jong, W. S., Douches, D. S., & Endelman, J. B. (2016). Software for Genome‐Wide Association Studies in Autopolyploids and Its Application to Potato. The Plant Genome, 9(2). https://doi.org/10.3835/plantgenome2015.08.0073
+
+---
+
+#### Visualization Tools Citations
+
+##### HIDECAN
+
+Angelin-Bonnet, O., Vignes, M., Biggs, P. J., Baldwin, S., & Thomson, S. (2024). Visual Integration of Genome-Wide Association Studies and Differential Expression Results with the Hidecan R Package. Genes, 15(10). https://doi.org/10.3390/genes15101244
+
+##### JBrowseR
+
+Hershberg, E. A., Stevens, G., Diesh, C., Xie, P., de Jesus Martinez, T., Buels, R., Stein, L., & Holmes, I. (2021). JBrowseR: an R interface to the JBrowse 2 genome browser. Bioinformatics, 37(21), 3914–3915. https://doi.org/10.1093/bioinformatics/btab459
+
+---
+
+#### Acknowledgments
+
+VIEWpoly was developed during the **Tools for Polyploid Project** by researchers at **Texas A&M University** and **North Carolina State University**. It is now updated and maintained by **Breeding Insight**.
+
+Funding support from the USDA Agricultural Research Service through the University of Florida Institute of Food and Agricultural Sciences is gratefully acknowledged.
+
+
+### Additional Resources
+
+**VIEWpoly Tutorial**: [https://cristianetaniguti.github.io/viewpoly_vignettes/](https://cristianetaniguti.github.io/viewpoly_vignettes/)
+
+**MAPpoly Tutorial**: [https://rpubs.com/mmollin/tetra_mappoly_vignette](https://rpubs.com/mmollin/tetra_mappoly_vignette)
+
+**QTLpoly Tutorial**: [https://gabrielgesteira.github.io/QTLpoly/docs/1-tutorial](https://gabrielgesteira.github.io/QTLpoly/docs/1-tutorial)
+
+**polyQTLR Tutorial**: [https://cran.r-project.org/web/packages/polyqtlR/vignettes/polyqtlR_vignette.html](https://cran.r-project.org/web/packages/polyqtlR/vignettes/polyqtlR_vignette.html)
+
+**polymapR Tutorial**: [https://cran.r-project.org/web/packages/polymapR/vignettes/Vignette_polymapR.html](https://cran.r-project.org/web/packages/polymapR/vignettes/Vignette_polymapR.html)
+
+**diaQTL Tutorial**: [https://jendelman.github.io/diaQTL/diaQTL_Vignette.html](https://jendelman.github.io/diaQTL/diaQTL_Vignette.html)
+
+**OneMap Tutorial**: [https://cristianetaniguti.github.io/Tutorials/onemap/](https://cristianetaniguti.github.io/Tutorials/onemap/)
+
+**JBrowse Documentation**: [https://jbrowse.org/jb2/](https://jbrowse.org/jb2/)
+
+**HIDECAN Documentation**: [https://plantandfoodresearch.github.io/hidecan/](https://plantandfoodresearch.github.io/hidecan/)
+
+**GWASpoly Tutorial**: [https://potatobreeding.cals.wisc.edu/software/](https://potatobreeding.cals.wisc.edu/software/)
+
+**Tools for Polyploids**: [https://www.polyploids.org/](https://www.polyploids.org/)
+
+**Breeding Insight**: [https://www.breedinginsight.org](https://www.breedinginsight.org)

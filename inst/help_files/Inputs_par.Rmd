@@ -1,0 +1,193 @@
+
+#### Available Example Datasets
+
+VIEWpoly provides example datasets to help you get started:
+
+- **Potato - Atlantic x B1829-5**: A tetraploid example containing complete linkage map and QTL analysis for a subset of individuals
+
+Access complete example datasets at [polyploids.org](https://www.polyploids.org/input-tests)
+
+---
+
+#### Upload Linkage Map Files
+
+##### MAPpoly Output
+
+Upload linkage maps built with the [MAPpoly](https://cran.r-project.org/web/packages/mappoly/index.html) package:
+
+- **Required file**: Object of class `mappoly.map` (RData format)
+- **Tutorial**: [MAPpoly vignette](https://rpubs.com/mmollin/tetra_mappoly_vignette)
+- **VIEWpoly integration**: [How to prepare MAPpoly outputs](https://cristianetaniguti.github.io/viewpoly_vignettes/VIEWpoly_tutorial.html#Upload_linkage_map_files)
+
+##### polymapR Output
+
+Upload linkage maps built with the [polymapR](https://cran.r-project.org/web/packages/polymapR/index.html) package:
+
+- **Required files**: 
+  - `polymapR.dataset.RData`
+  - `polymapR.map.RData`
+- **Data type**: Select discrete or probabilistic genotype input
+- **Ploidy**: Specify ploidy level (4 or 6)
+- **Tutorial**: [polymapR vignette](https://cran.r-project.org/web/packages/polymapR/vignettes/Vignette_polymapR.html)
+
+##### OneMap Output
+
+Upload linkage maps for diploid populations built with [OneMap](https://cristianetaniguti.github.io/Tutorials/onemap/):
+
+- **Required file**: Object of class `viewmap` (RData format)
+- **Supported populations**: Outcrossing and inbred-based populations
+
+##### Custom Format
+
+Upload linkage map files in standard format (CSV, TSV, or TSV.GZ):
+
+- **dosages.tsv**: Marker dosage data
+- **genetic_map.tsv**: Genetic map positions
+- **phases.tsv**: Parental phase information
+- **marker information** (optional): Marker ID, genome position, chromosome
+
+Download example files using the provided radio buttons.
+
+---
+
+#### Upload QTL Analysis Files
+
+##### QTLpoly Output
+
+Upload QTL analysis results from [QTLpoly](https://github.com/gabrielgesteira/QTLpoly):
+
+- **Required files**:
+  - `QTLpoly_data.RData` (class: qtlpoly.data)
+  - `QTLpoly_remim.mod.RData` (class: qtlpoly.remim)
+  - `QTLpoly_est.effects.RData` (class: qtlpoly.effects)
+  - `QTLpoly_fitted.mod.RData` (class: qtlpoly.fitted)
+- **Tutorial**: [QTLpoly tutorial](https://gabrielgesteira.github.io/QTLpoly/docs/1-tutorial)
+
+##### diaQTL Output
+
+Upload QTL analysis from [diaQTL](https://github.com/jendelman/diaQTL):
+
+- **Required files**:
+  - `diaQTL_scan1_list.RData`
+  - `diaQTL_scan1.summaries_list.RData`
+  - `diaQTL_BayesCI_list.RData`
+  - `diaQTL_fitQTL_list.RData`
+- **Tutorial**: [diaQTL vignette](https://jendelman.github.io/diaQTL/diaQTL_Vignette.html)
+
+##### polyqtlR Output
+
+Upload QTL analysis from [polyqtlR](https://cran.r-project.org/web/packages/polyqtlR/index.html):
+
+- **Required files**:
+  - `polyqtlR_effects.RData`
+  - `polyqtlR_qtl_info.RData`
+  - `polyqtlR_QTLscan_list.RData`
+- **Tutorial**: [polyqtlR vignette](https://cran.r-project.org/web/packages/polyqtlR/vignettes/polyqtlR_vignette.html)
+
+#### Custom QTL Format
+
+Upload QTL results in standard format (CSV, TSV, or TSV.GZ):
+
+- **selected_mks.tsv**: Selected markers
+- **qtl_info.tsv**: QTL information
+- **blups.tsv**: Best Linear Unbiased Predictions
+- **beta.hat.tsv**: Estimated effects
+- **profile.tsv**: QTL profile
+- **effects.tsv**: Allelic effects
+- **probs.tsv**: Genotype probabilities
+
+Download example files using the provided radio buttons.
+
+---
+
+#### Upload Genome Browser Files
+
+Upload genomic data for candidate gene exploration using [JBrowseR](https://gmod.github.io/JBrowseR/):
+
+**⚠️ Warning**: All genome files must be from the same genome version used to build the genetic map.
+
+##### Genome Assembly (Required to access features of 'Genome' tab)
+
+- **Local files**: Upload `.fasta/.fasta.gz` with index files (`.fai`, `.gzi`)
+- **Hosted URL**: Provide URL to hosted FASTA file (faster loading)
+
+##### Annotation (Optional)
+
+- **Local files**: Upload `.gff3/.gff3.gz` with `.gff3.tbi/.gff3.gz.tbi` index
+- **Hosted URL**: Provide URL to hosted GFF3 file
+
+##### Variants (Optional)
+
+- **Local files**: Upload `.vcf` with `.vcf.tbi` index
+- **Hosted URL**: Provide URL to hosted VCF file
+
+##### Alignments (Optional)
+
+- **Local files**: Upload `.bam` with `.bam.bai` or `.cram` with `.cram.crai`
+- **Hosted URL**: Provide URL to hosted BAM/CRAM file
+
+##### BigWig Data (Optional)
+
+- **Local files**: Upload `.wig` file
+- **Hosted URL**: Provide URL to hosted WIG file
+
+---
+
+#### Upload HIDECAN Files
+
+Upload GWAS, differential expression, and candidate gene data for [HIDECAN](https://cran.r-project.org/web/packages/hidecan/index.html) visualization:
+
+##### GWAS Output
+
+- [**GWASpoly**](https://github.com/jendelman/GWASpoly): Object of class `GWASpoly.thresh` (from `GWASpoly::set.threshold()`)
+- **Custom GWAS**: CSV file with GWAS results
+
+##### Differential Expression & Candidate Genes
+
+- **DE.csv**: Differential expression results
+- **CAN.csv**: Candidate genes information
+
+---
+
+#### VIEWpoly Dataset Management
+
+##### Download VIEWpoly Dataset
+
+Save your uploaded data in VIEWpoly format:
+
+- Converts map and QTL data to VIEWpoly format
+- **Note**: Genome information is not stored
+- Define a dataset name (no spaces)
+
+##### Upload VIEWpoly Dataset
+
+Load previously saved VIEWpoly datasets:
+
+- Upload `.RData` files containing VIEWpoly objects
+- The app automatically detects VIEWpoly objects in your R environment
+
+### Additional Resources
+
+**VIEWpoly Tutorial**: [https://cristianetaniguti.github.io/viewpoly_vignettes/](https://cristianetaniguti.github.io/viewpoly_vignettes/)
+
+**MAPpoly Tutorial**: [https://rpubs.com/mmollin/tetra_mappoly_vignette](https://rpubs.com/mmollin/tetra_mappoly_vignette)
+
+**QTLpoly Tutorial**: [https://gabrielgesteira.github.io/QTLpoly/docs/1-tutorial](https://gabrielgesteira.github.io/QTLpoly/docs/1-tutorial)
+
+**polyQTLR Tutorial**: [https://cran.r-project.org/web/packages/polyqtlR/vignettes/polyqtlR_vignette.html](https://cran.r-project.org/web/packages/polyqtlR/vignettes/polyqtlR_vignette.html)
+
+**polymapR Tutorial**: [https://cran.r-project.org/web/packages/polymapR/vignettes/Vignette_polymapR.html](https://cran.r-project.org/web/packages/polymapR/vignettes/Vignette_polymapR.html)
+
+**diaQTL Tutorial**: [https://jendelman.github.io/diaQTL/diaQTL_Vignette.html](https://jendelman.github.io/diaQTL/diaQTL_Vignette.html)
+
+**OneMap Tutorial**: [https://cristianetaniguti.github.io/Tutorials/onemap/](https://cristianetaniguti.github.io/Tutorials/onemap/)
+
+**JBrowse Documentation**: [https://jbrowse.org/jb2/](https://jbrowse.org/jb2/)
+
+**HIDECAN Documentation**: [https://plantandfoodresearch.github.io/hidecan/](https://plantandfoodresearch.github.io/hidecan/)
+
+**GWASpoly Tutorial**: [https://potatobreeding.cals.wisc.edu/software/](https://potatobreeding.cals.wisc.edu/software/)
+
+**Tools for Polyploids**: [https://www.polyploids.org/](https://www.polyploids.org/)
+
+**Breeding Insight**: [https://www.breedinginsight.org](https://www.breedinginsight.org)

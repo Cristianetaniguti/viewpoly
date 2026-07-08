@@ -1,14 +1,39 @@
-# viewpoly 0.1.0
+# viewpoly 1.0.0
 
-* Added a `NEWS.md` file to track changes to the package.
+* Change Shiny design to be Breedverse compliant
+* Add help materials 
+* Remove outdated links for QTLpoly on CRAN and datasets in server
+* New maintainer email
+ 
+# viewpoly 0.4.2
 
-# viewpoly 0.1.1
+* HIDECAN module now supports multiple GWASpoly output files
+* Support for diploid QTL results in the QTL module
 
-* Bug fixed in VIEWgenome module
-* Add GitHub link in DESCRIPTION
-* Add tutorial video link
-* Update README.md
+# viewpoly 0.4.0
 
+* All testthat back
+* Add HIDECAN module
+
+# viewpoly 0.3.2
+
+* CRAN version without all testthat tests
+
+# viewpoly 0.3.1
+
+* Avoid errors if user has not internet connection
+* Inform number and ID of individuals selected by haplotypes
+* README updated to include new vignette for server version (available at brach publishing_data)
+
+# viewpoly 0.3.0
+
+* Support for diaQTL multi-population evaluation
+* User-defined parents names in effects graphics
+* Download of plots with RData format
+* Docker image available
+* Allow to exclude haplotypes from haplotypes probability view in VIEWqtl module
+* Bug fixed to upload genome through genome link
+* Bug fixed to upload viewpoly object
 
 # viewpoly 0.2.0
 
@@ -25,32 +50,24 @@ Main modifications made during JOSS review:
 * Disable the download buttons when image parameters are not reliable
 * Title of boxes are now also collapsible
 
-# viewpoly 0.3.0
+# viewpoly 0.1.1
 
-* Support for diaQTL multi-population evaluation
-* User-defined parents names in effects graphics
-* Download of plots with RData format
-* Docker image available
-* Allow to exclude haplotypes from haplotypes probability view in VIEWqtl module
-* Bug fixed to upload genome through genome link
-* Bug fixed to upload viewpoly object
+* Bug fixed in VIEWgenome module
+* Add GitHub link in DESCRIPTION
+* Add tutorial video link
+* Update README.md
 
-# viewpoly 0.3.1
+# viewpoly 0.1.0
 
-* Avoid errors if user has not internet connection
-* Inform number and ID of individuals selected by haplotypes
-* README updated to include new vignette for server version (available at brach publishing_data)
+* Added a `NEWS.md` file to track changes to the package.
 
-# viewpoly 0.3.2
 
-* CRAN version without all testthat tests
 
-# viewpoly 0.4.0
 
-* All testthat back
-* Add HIDECAN module
 
-# viewpoly 0.4.2
 
-* HIDECAN module now supports multiple GWASpoly output files
-* Support for diploid QTL results in the QTL module
+
+
+
+
+

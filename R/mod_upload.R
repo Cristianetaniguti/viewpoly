@@ -4,308 +4,416 @@
 #'
 #' @param id,input,output,session Internal parameters for {shiny}.
 #'
-#' @noRd 
-#' 
+#' @noRd
+#'
 #' @importFrom shinyjs inlineCSS useShinyjs
 #' @importFrom hidecan get_example_data GWAS_data_from_gwaspoly GWAS_data DE_data CAN_data
-#' @importFrom shiny NS tagList 
-mod_upload_ui <- function(id){
+#' @importFrom shiny NS tagList
+mod_upload_ui <- function(id) {
   ns <- NS(id)
   tagList(
     fluidRow(
-      column(width = 12,
-             div(style = "position:absolute;right:1em;", 
-                 div(
-                   actionButton(ns("goAbout"), "Go to About",icon("arrow-circle-left", verify_fa = FALSE), class = "btn btn-primary"), 
-                   actionButton(ns("goQTL"), label = div("Go to QTL", icon("arrow-circle-right", verify_fa = FALSE)), class = "btn btn-primary")), br(),
-                 div(style = "position:absolute;right:0em;",
-                     actionButton(ns("reset_all"), "Reset all",icon("undo-alt", verify_fa = FALSE), class = "btn btn-danger"))
-             ),
-             tags$h2(tags$b("Input data")), br(),
-             "Use this module to select an example dataset or to upload yours.", br(), br()
+      column(
+        width = 12,
+        div(
+          style = "background-color: white; padding: 15px; border: 1px solid black; position: relative; min-height: 120px;", # Wrap everything in this div
+          div(
+            style = "position:absolute;right:1em;top:10px;",
+            actionButton(ns("goAbout"), "Go to Home", icon("arrow-circle-left", verify_fa = FALSE), style = "background-color: #A896C2 ; border-color: #A896C2 ;"),
+            actionButton(ns("goQTL"), label = div("Go to QTL", icon("arrow-circle-right", verify_fa = FALSE)), style = "background-color: #A896C2 ; border-color: #A896C2 ;")
+          ),
+          div(
+            style = "position:absolute;right:1em;bottom:10px;display:flex;gap:3px;",
+            actionButton(ns("reset_all"), "Reset all", icon("undo-alt", verify_fa = FALSE), style = "background-color: #F2A7AE  ; border-color: #F2A7AE  ;"),
+            dropdownButton(
+              p(HTML("<b>Inputs and parameters description:</b>"), actionButton(ns("goPar"), icon("arrow-up-right-from-square", verify_fa = FALSE))), hr(),
+              p(HTML("<b>Results description:</b>"), actionButton(ns("goRes"), icon("arrow-up-right-from-square", verify_fa = FALSE))), hr(),
+              p(HTML("<b>How to cite:</b>"), actionButton(ns("goCite"), icon("arrow-up-right-from-square", verify_fa = FALSE))), hr(),
+              circle = FALSE,
+              status = "warning",
+              icon = icon("info"), width = "300px",
+              right = TRUE,
+              tooltip = tooltipOptions(title = "Click to see info!")
+            )
+          ),
+          tags$h2(tags$b("Input data")), br(),
+          "Use this module to select an example dataset or to upload yours.", br(), br()
+        ), br()
       ), br(),
-      column(width = 12,
-             fluidPage(
-               box(id= ns("box_example"), width = 12, solidHeader = TRUE, collapsible = TRUE, collapsed = FALSE, status="primary", title = actionLink(inputId = ns("exampleID"), label = tags$b("Available example datasets")),
-                   radioButtons(ns("example_map"), label = p("They contain the entire linkage map and QTL analysis but just a subset of individuals."), 
-                                choices = c("Potato - Atlantic x B1829-5" = "tetra_map"),
-                                selected = "tetra_map"), br(), br(), hr(),
-                   tags$p("Access complete example datasets ", 
-                          tags$a(href= "https://www.polyploids.org/input-tests","here"))
-               )
-             )
+      column(
+        width = 12,
+        fluidPage(
+          box(
+            id = ns("box_example"), width = 12, solidHeader = TRUE, collapsible = TRUE, collapsed = FALSE, status = "info", title = tags$b("Available example datasets"),
+            radioButtons(ns("example_map"),
+              label = p("They contain the entire linkage map and QTL analysis but just a subset of individuals."),
+              choices = c("Potato - Atlantic x B1829-5" = "tetra_map"),
+              selected = "tetra_map"
+            ), br(), br(), hr(),
+            tags$p(
+              "Access complete example datasets ",
+              tags$a(href = "https://www.polyploids.org/input-tests", "here")
+            )
+          )
+        )
       ), br(),
-      column(width = 12,
-             fluidPage(
-               box(id = ns("box_map"), width = 12, solidHeader = TRUE, collapsible = TRUE, collapsed = TRUE, status="primary", title = actionLink(inputId = ns("mapID"), label = tags$b("Upload linkage map files")),
-                   div(style = "position:absolute;right:1em;",
-                       actionBttn(ns("reset_map"), style = "jelly", color = "royal",  size = "sm", label = "reset", icon = icon("undo-alt", verify_fa = FALSE))
-                   ), br(), br(), 
-                   box(id = ns("box_mappoly"),width = 12, solidHeader = FALSE, collapsible = TRUE, collapsed = TRUE, status="primary",  title = actionLink(inputId = ns("mappolyID"), label = tags$b("Upload MAPpoly output")),
-                       tags$p("Access further information about how to build a linkage maps with MAPpoly ", 
-                              tags$a(href= "https://rpubs.com/mmollin/tetra_mappoly_vignette","here")), br(),
-                       tags$p("Access a example code of how to obtain these inputs using MAPpoly functions ", 
-                              tags$a(href= "https://cristianetaniguti.github.io/viewpoly_vignettes/VIEWpoly_tutorial.html#Upload_linkage_map_files","here")),
-                       hr(),
-                       div(style = "position:absolute;right:1em;",
-                           actionBttn(ns("submit_mappoly"), style = "jelly", color = "royal",  size = "sm", label = "submit MAPpoly", icon = icon("share-square", verify_fa = FALSE)), 
-                       ), br(), br(),
-                       tags$p("Object of class `mappoly.map`."), 
-                       fileInput(ns("mappoly_in"), label = h6("File: my_mappoly_list.RData"), multiple = F),
-                   ),
-                   box(id = ns("box_polymap"),width = 12, solidHeader = FALSE, collapsible = TRUE, collapsed = TRUE,  status="primary",title = actionLink(inputId = ns("polymapID"), label = tags$b("Upload polymapR output")),
-                       tags$p("Access further information about how to build a linkage maps with polymapR ", 
-                              tags$a(href= "https://cran.r-project.org/web/packages/polymapR/vignettes/Vignette_polymapR.html","here")), br(),
-                       tags$p("Access a example code of how to obtain these inputs using polymapR functions ", 
-                              tags$a(href= "https://cristianetaniguti.github.io/viewpoly_vignettes/VIEWpoly_tutorial.html#Upload_linkage_map_files","here")),
-                       hr(),
-                       div(style = "position:absolute;right:1em;",
-                           actionBttn(ns("submit_polymapR"), style = "jelly", color = "royal",  size = "sm", label = "submit polymapR", icon = icon("share-square", verify_fa = FALSE)), 
-                       ), br(), br(),
-                       p("Indicates whether the genotype input is discrete or probabilistic."),
-                       prettyRadioButtons(
-                         inputId = ns("input.type"),
-                         label = "Data type:", 
-                         choices = c("discrete" = "discrete", "probabilistic" = "probabilistic"),
-                         selected = "discrete",
-                         inline = TRUE, 
-                         status = "info",
-                         fill = TRUE
-                       ), br(),
-                       p("Indicates the dataset specie ploidy."), 
-                       prettyRadioButtons(
-                         inputId = ns("ploidy"),
-                         label = "Ploidy:", 
-                         choices = c(4, 6),
-                         selected = 4,
-                         inline = TRUE, 
-                         status = "info",
-                         fill = TRUE
-                       ), br(),
-                       fileInput(ns("polymapR.dataset"), label = h6("File: polymapR.dataset.RData"), multiple = F),
-                       fileInput(ns("polymapR.map"), label = h6("File: polymapR.map.RData"), multiple = F),
-                   ),
-                   box(id = ns("box_onemap"),width = 12, solidHeader = FALSE, collapsible = TRUE, collapsed = TRUE, status="primary",  title = actionLink(inputId = ns("onemapID"), label = tags$b("Upload OneMap output")),
-                       tags$p("Access further information about how to build a linkage maps for diploid outcrossing populations with OneMap ", 
-                              tags$a(href= "https://cristianetaniguti.github.io/Tutorials/onemap/vignettes_highres/Outcrossing_Populations.html","here")), br(),
-                       tags$p("Access further information about how to build a linkage maps for diploid inbred based populations with OneMap ", 
-                              tags$a(href= "https://cristianetaniguti.github.io/Tutorials/onemap/vignettes_highres/Inbred_Based_Populations.html","here")), br(),
-                       tags$p("Access a example code of how to obtain these inputs using OneMap functions ", 
-                              tags$a(href= "https://cristianetaniguti.github.io/viewpoly_vignettes/VIEWpoly_tutorial.html#Upload_linkage_map_files","here")),
-                       hr(),
-                       div(style = "position:absolute;right:1em;",
-                           actionBttn(ns("submit_onemap"), style = "jelly", color = "royal",  size = "sm", label = "submit OneMap", icon = icon("share-square", verify_fa = FALSE)), 
-                       ), br(), br(),
-                       tags$p("Object of class `viewmap`."), 
-                       fileInput(ns("onemap_in"), label = h6("File: my_onemap_map.RData"), multiple = F),
-                   ),
-                   box(id = ns("box_mapst"), width = 12, solidHeader = FALSE, collapsible = TRUE, collapsed = TRUE, status="primary",title = actionLink(inputId = ns("mapstID"), label = tags$b("Upload linkage map files with standard format (.csv, .tsv or .tsv.gz)")),
-                       div(style = "position:absolute;right:1em;",
-                           actionBttn(ns("submit_map_custom"), style = "jelly", color = "royal",  size = "sm", label = "submit map custom", icon = icon("share-square", verify_fa = FALSE)), 
-                       ), br(), br(),
-                       fileInput(ns("dosages"), label = h6("File: dosages.tsv"), multiple = F),
-                       fileInput(ns("genetic_map"), label = h6("File: genetic_map.tsv"), multiple = F),
-                       fileInput(ns("phases"), label = h6("File: phases.tsv"), multiple = F),
-                       p("Upload here an TSV file with table with three columns: 1) marker ID; 2) genome position; 3) chromosome"),
-                       fileInput(ns("mks.pos"), label = h6("File: marker information"), multiple = F),
-                       "Check the input file formats with the example files:", br(),
-                       radioButtons(ns("downloadType_map"), "", 
-                                    choices = c("dosages.tsv" = "dosages",
-                                                "genetic_map.tsv" = "genetic_map",
-                                                "phases.tsv" = "phases"),
-                                    inline = TRUE), br(), br(),
-                       downloadButton(ns("downloadData_map"), "Download"), 
-                   ),
-               )
-             )
+      column(
+        width = 12,
+        fluidPage(
+          box(
+            id = ns("box_map"), width = 12, solidHeader = TRUE, collapsible = TRUE, collapsed = TRUE, status = "info", title = tags$b("Upload linkage map files"),
+            div(
+              style = "position:absolute;right:1em;",
+              actionButton(ns("reset_map"), "Reset", icon("undo-alt", verify_fa = FALSE), style = "background-color: #F2A7AE  ; border-color: #F2A7AE  ;")
+            ), br(), br(),
+            box(
+              id = ns("box_mappoly"), width = 12, solidHeader = FALSE, collapsible = TRUE, collapsed = TRUE, status = "primary", title = tags$b("Upload MAPpoly output"),
+              tags$p(
+                "Access further information about how to build a linkage maps with MAPpoly ",
+                tags$a(href = "https://rpubs.com/mmollin/tetra_mappoly_vignette", "here")
+              ), br(),
+              tags$p(
+                "Access a example code of how to obtain these inputs using MAPpoly functions ",
+                tags$a(href = "https://cristianetaniguti.github.io/viewpoly_vignettes/VIEWpoly_tutorial.html#Upload_linkage_map_files", "here")
+              ),
+              hr(),
+              div(
+                style = "position:absolute;right:1em;",
+                actionButton(ns("submit_mappoly"), "Submit MAPpoly", icon("share-square", verify_fa = FALSE), style = "background-color: #B5DDE8 ; border-color: #B5DDE8 ;")
+              ), br(), br(),
+              tags$p("Object of class `mappoly.map`."),
+              fileInput(ns("mappoly_in"), label = h6("File: my_mappoly_list.RData"), multiple = F)
+            ),
+            box(
+              id = ns("box_polymap"), width = 12, solidHeader = FALSE, collapsible = TRUE, collapsed = TRUE, status = "primary", title = tags$b("Upload polymapR output"),
+              tags$p(
+                "Access further information about how to build a linkage maps with polymapR ",
+                tags$a(href = "https://cran.r-project.org/web/packages/polymapR/vignettes/Vignette_polymapR.html", "here")
+              ), br(),
+              tags$p(
+                "Access a example code of how to obtain these inputs using polymapR functions ",
+                tags$a(href = "https://cristianetaniguti.github.io/viewpoly_vignettes/VIEWpoly_tutorial.html#Upload_linkage_map_files", "here")
+              ),
+              hr(),
+              div(
+                style = "position:absolute;right:1em;",
+                actionButton(ns("submit_polymapR"), "Submit polymapR", icon("share-square", verify_fa = FALSE), style = "background-color: #B5DDE8 ; border-color: #B5DDE8 ;")
+              ), br(), br(),
+              p("Indicates whether the genotype input is discrete or probabilistic."),
+              prettyRadioButtons(
+                inputId = ns("input.type"),
+                label = "Data type:",
+                choices = c("discrete" = "discrete", "probabilistic" = "probabilistic"),
+                selected = "discrete",
+                inline = TRUE,
+                status = "info",
+                fill = TRUE
+              ), br(),
+              p("Indicates the dataset specie ploidy."),
+              prettyRadioButtons(
+                inputId = ns("ploidy"),
+                label = "Ploidy:",
+                choices = c(4, 6),
+                selected = 4,
+                inline = TRUE,
+                status = "info",
+                fill = TRUE
+              ), br(),
+              fileInput(ns("polymapR.dataset"), label = h6("File: polymapR.dataset.RData"), multiple = F),
+              fileInput(ns("polymapR.map"), label = h6("File: polymapR.map.RData"), multiple = F)
+            ),
+            box(
+              id = ns("box_onemap"), width = 12, solidHeader = FALSE, collapsible = TRUE, collapsed = TRUE, status = "primary", title = tags$b("Upload OneMap output"),
+              tags$p(
+                "Access further information about how to build a linkage maps for diploid outcrossing populations with OneMap ",
+                tags$a(href = "https://cristianetaniguti.github.io/Tutorials/onemap/vignettes_highres/Outcrossing_Populations.html", "here")
+              ), br(),
+              tags$p(
+                "Access further information about how to build a linkage maps for diploid inbred based populations with OneMap ",
+                tags$a(href = "https://cristianetaniguti.github.io/Tutorials/onemap/vignettes_highres/Inbred_Based_Populations.html", "here")
+              ), br(),
+              tags$p(
+                "Access a example code of how to obtain these inputs using OneMap functions ",
+                tags$a(href = "https://cristianetaniguti.github.io/viewpoly_vignettes/VIEWpoly_tutorial.html#Upload_linkage_map_files", "here")
+              ),
+              hr(),
+              div(
+                style = "position:absolute;right:1em;",
+                actionButton(ns("submit_onemap"), "Submit OneMap", icon("share-square", verify_fa = FALSE), style = "background-color: #B5DDE8 ; border-color: #B5DDE8 ;")
+              ), br(), br(),
+              tags$p("Object of class `viewmap`."),
+              fileInput(ns("onemap_in"), label = h6("File: my_onemap_map.RData"), multiple = F)
+            ),
+            box(
+              id = ns("box_mapst"), width = 12, solidHeader = FALSE, collapsible = TRUE, collapsed = TRUE, status = "primary", title = tags$b("Upload linkage map files with standard format (.csv, .tsv or .tsv.gz)"),
+              div(
+                style = "position:absolute;right:1em;",
+                actionButton(ns("submit_map_custom"), "Submit map custom", icon("share-square", verify_fa = FALSE), style = "background-color: #B5DDE8 ; border-color: #B5DDE8 ;")
+              ), br(), br(),
+              fileInput(ns("dosages"), label = h6("File: dosages.tsv"), multiple = F),
+              fileInput(ns("genetic_map"), label = h6("File: genetic_map.tsv"), multiple = F),
+              fileInput(ns("phases"), label = h6("File: phases.tsv"), multiple = F),
+              p("Upload here an TSV file with table with three columns: 1) marker ID; 2) genome position; 3) chromosome"),
+              fileInput(ns("mks.pos"), label = h6("File: marker information"), multiple = F),
+              "Check the input file formats with the example files:", br(),
+              radioButtons(ns("downloadType_map"), "",
+                choices = c(
+                  "dosages.tsv" = "dosages",
+                  "genetic_map.tsv" = "genetic_map",
+                  "phases.tsv" = "phases"
+                ),
+                inline = TRUE
+              ), br(), br(),
+              downloadButton(ns("downloadData_map"), "Download")
+            )
+          )
+        )
       ), br(),
-      column(width = 12,
-             fluidPage(
-               box(id = ns("box_qtl"),width = 12, solidHeader = TRUE, collapsible = TRUE, collapsed = TRUE, status="primary", title = actionLink(inputId = ns("qtlID"), label = tags$b("Upload QTL analysis files")),
-                   div(style = "position:absolute;right:1em;",
-                       actionBttn(ns("reset_qtl"), style = "jelly", color = "royal",  size = "sm", label = "reset", icon = icon("undo-alt", verify_fa = FALSE))
-                   ), br(), br(), 
-                   box(id= ns("box_qtlpoly"), width = 12, solidHeader = FALSE, collapsible = TRUE, collapsed = TRUE,  status="primary", title = actionLink(inputId = ns("qtlpolyID"), label = tags$b("Upload QTLpoly output")),
-                       div(style = "position:absolute;right:1em;",
-                           actionBttn(ns("submit_qtlpoly"), style = "jelly", color = "royal",  size = "sm", label = "submit QTLpoly", icon = icon("share-square", verify_fa = FALSE)), 
-                       ), br(), br(),
-                       tags$p("Access further information about how to perform QTL analysis with QTLpoly ", 
-                              tags$a(href= "https://guilherme-pereira.github.io/QTLpoly/1-tutorial","here")), br(),
-                       tags$p("Access a example code of how to obtain these inputs using QTLpoly functions ", 
-                              tags$a(href= "https://cristianetaniguti.github.io/viewpoly_vignettes/VIEWpoly_tutorial.html#Upload_QTL_analysis_files","here")),
-                       hr(),
-                       fileInput(ns("qtlpoly_data"), label = h6("File: QTLpoly_data.RData", br(), br(),"Object of class: qtlpoly.data"), multiple = F),
-                       fileInput(ns("qtlpoly_remim.mod"), label = h6("File: QTLpoly_remim.mod.RData", br(), br(), "Object of class: qtlpoly.remim"), multiple = F),
-                       fileInput(ns("qtlpoly_est.effects"), label = h6("File: QTLpoly_est.effects.RData", br(), br(),"Object of class: qtlpoly.effects"), multiple = F),
-                       fileInput(ns("qtlpoly_fitted.mod"), label = h6("File: QTLpoly_fitted.mod.RData", br(), br(), "Object of class: qtlpoly.fitted"), multiple = F),
-                   ),
-                   box(id = ns("box_diaqtl"), width = 12, solidHeader = FALSE, collapsible = TRUE, collapsed = TRUE,  status="primary", title = actionLink(inputId = ns("diaqtlID"), label = tags$b("Upload diaQTL output")),
-                       div(style = "position:absolute;right:1em;",
-                           actionBttn(ns("submit_diaQTL"), style = "jelly", color = "royal",  size = "sm", label = "submit diaQTL", icon = icon("share-square", verify_fa = FALSE)), 
-                       ), br(), br(),
-                       tags$p("Access further information about how to perform QTL analysis with diaQTL ", 
-                              tags$a(href= "https://jendelman.github.io/diaQTL/diaQTL_Vignette.html","here")), br(),
-                       tags$p("Access a example code of how to obtain these inputs using diaQTL functions ", 
-                              tags$a(href= "https://cristianetaniguti.github.io/viewpoly_vignettes/VIEWpoly_tutorial.html#Upload_QTL_analysis_files","here")),
-                       hr(),
-                       fileInput(ns("diaQTL_scan1"), label = h6("File: diaQTL_scan1_list.RData"), multiple = F),
-                       fileInput(ns("diaQTL_scan1.summaries"), label = h6("File: diaQTL_scan1.summaries_list.RData"), multiple = F),
-                       fileInput(ns("diaQTL_BayesCI"), label = h6("File: diaQTL_BayesCI_list.RData"), multiple = F),
-                       fileInput(ns("diaQTL_fitQTL"), label = h6("File: diaQTL_fitQTL_list.RData"), multiple = F),
-                   ),
-                   box(id = ns("box_polyqtl"),width = 12, solidHeader = FALSE, collapsible = TRUE, collapsed = TRUE,  status="primary", title = actionLink(inputId = ns("polyqtlID"), label = tags$b("Upload polyqtlR output")),
-                       div(style = "position:absolute;right:1em;",
-                           actionBttn(ns("submit_polyqtlR"), style = "jelly", color = "royal",  size = "sm", label = "submit polyqtlR", icon = icon("share-square", verify_fa = FALSE)), 
-                       ), br(), br(),
-                       tags$p("Access further information about how to perform QTL analysis with polyqtlR ", 
-                              tags$a(href= "https://cran.r-project.org/web/packages/polyqtlR/vignettes/polyqtlR_vignette.html","here")), br(),
-                       tags$p("Access a example code of how to obtain these inputs using polyqtlR functions ", 
-                              tags$a(href= "https://cristianetaniguti.github.io/viewpoly_vignettes/VIEWpoly_tutorial.html#Upload_QTL_analysis_files","here")),
-                       hr(),
-                       fileInput(ns("polyqtlR_effects"), label = h6("File: polyqtlR_effects.RData"), multiple = F), hr(),
-                       fileInput(ns("polyqtlR_qtl_info"), label = h6("File: polyqtlR_qtl_info.RData"), multiple = F),
-                       fileInput(ns("polyqtlR_QTLscan_list"), label = h6("File: polyqtlR_QTLscan_list.RData"), multiple = F),
-                   ),
-                   box(id = ns("box_qtlst"),width = 12, solidHeader = FALSE, collapsible = TRUE, collapsed = TRUE, status="primary", title = actionLink(inputId = ns("qtlstID"), label = tags$b("Upload QTL analysis results with standard format (.csv, .tsv or .tsv.gz)")),
-                       div(style = "position:absolute;right:1em;",
-                           actionBttn(ns("submit_qtl_custom"), style = "jelly", color = "royal",  size = "sm", label = "submit QTL custom", icon = icon("share-square", verify_fa = FALSE)), 
-                       ), br(), br(),
-                       fileInput(ns("selected_mks"), label = h6("File: selected_mks.tsv"), multiple = F),
-                       fileInput(ns("qtl_info"), label = h6("File: qtl_info.tsv"), multiple = F),
-                       fileInput(ns("blups"), label = h6("File: blups.tsv"), multiple = F),
-                       fileInput(ns("beta.hat"), label = h6("File: beta.hat.tsv"), multiple = F),
-                       fileInput(ns("profile"), label = h6("File: profile.tsv"), multiple = F),
-                       fileInput(ns("effects"), label = h6("File: effects.tsv"), multiple = F),
-                       fileInput(ns("probs"), label = h6("File: probs.tsv"), multiple = F),
-                       "Check the input format with the example file:", br(), br(),
-                       radioButtons(ns("downloadType_qtl"), "", 
-                                    choices = c("selected_mks.tsv" = "selected_mks",
-                                                "qtl_info.tsv" = "qtl_info",
-                                                "blups.tsv" = "blups",
-                                                "beta.hat.tsv" = "beta.hat",
-                                                "profile.tsv" = "profile",
-                                                "effects.tsv" = "effects",
-                                                "probs.tsv" = "probs"),
-                                    inline = TRUE), br(), br(),
-                       downloadButton(ns("downloadData_qtl"), "Download"), 
-                       
-                   )
-               )
-             )
+      column(
+        width = 12,
+        fluidPage(
+          box(
+            id = ns("box_qtl"), width = 12, solidHeader = TRUE, collapsible = TRUE, collapsed = TRUE, status = "info", title = tags$b("Upload QTL analysis files"),
+            div(
+              style = "position:absolute;right:1em;",
+              actionButton(ns("reset_qtl"), "Reset", icon("undo-alt", verify_fa = FALSE), style = "background-color: #F2A7AE  ; border-color: #F2A7AE  ;")
+            ), br(), br(),
+            box(
+              id = ns("box_qtlpoly"), width = 12, solidHeader = FALSE, collapsible = TRUE, collapsed = TRUE, status = "primary", title = tags$b("Upload QTLpoly output"),
+              div(
+                style = "position:absolute;right:1em;",
+                actionButton(ns("submit_qtlpoly"), "Submit QTLpoly", icon("share-square", verify_fa = FALSE), style = "background-color: #B5DDE8 ; border-color: #B5DDE8 ;")
+              ), br(), br(),
+              tags$p(
+                "Access further information about how to perform QTL analysis with QTLpoly ",
+                tags$a(href = "https://guilherme-pereira.github.io/QTLpoly/1-tutorial", "here")
+              ), br(),
+              tags$p(
+                "Access a example code of how to obtain these inputs using QTLpoly functions ",
+                tags$a(href = "https://cristianetaniguti.github.io/viewpoly_vignettes/VIEWpoly_tutorial.html#Upload_QTL_analysis_files", "here")
+              ),
+              hr(),
+              fileInput(ns("qtlpoly_data"), label = h6("File: QTLpoly_data.RData", br(), br(), "Object of class: qtlpoly.data"), multiple = F),
+              fileInput(ns("qtlpoly_remim.mod"), label = h6("File: QTLpoly_remim.mod.RData", br(), br(), "Object of class: qtlpoly.remim"), multiple = F),
+              fileInput(ns("qtlpoly_est.effects"), label = h6("File: QTLpoly_est.effects.RData", br(), br(), "Object of class: qtlpoly.effects"), multiple = F),
+              fileInput(ns("qtlpoly_fitted.mod"), label = h6("File: QTLpoly_fitted.mod.RData", br(), br(), "Object of class: qtlpoly.fitted"), multiple = F)
+            ),
+            box(
+              id = ns("box_diaqtl"), width = 12, solidHeader = FALSE, collapsible = TRUE, collapsed = TRUE, status = "primary", title = tags$b("Upload diaQTL output"),
+              div(
+                style = "position:absolute;right:1em;",
+                actionButton(ns("submit_diaQTL"), "Submit diaQTL", icon("share-square", verify_fa = FALSE), style = "background-color: #B5DDE8 ; border-color: #B5DDE8 ;")
+              ), br(), br(),
+              tags$p(
+                "Access further information about how to perform QTL analysis with diaQTL ",
+                tags$a(href = "https://jendelman.github.io/diaQTL/diaQTL_Vignette.html", "here")
+              ), br(),
+              tags$p(
+                "Access a example code of how to obtain these inputs using diaQTL functions ",
+                tags$a(href = "https://cristianetaniguti.github.io/viewpoly_vignettes/VIEWpoly_tutorial.html#Upload_QTL_analysis_files", "here")
+              ),
+              hr(),
+              fileInput(ns("diaQTL_scan1"), label = h6("File: diaQTL_scan1_list.RData"), multiple = F),
+              fileInput(ns("diaQTL_scan1.summaries"), label = h6("File: diaQTL_scan1.summaries_list.RData"), multiple = F),
+              fileInput(ns("diaQTL_BayesCI"), label = h6("File: diaQTL_BayesCI_list.RData"), multiple = F),
+              fileInput(ns("diaQTL_fitQTL"), label = h6("File: diaQTL_fitQTL_list.RData"), multiple = F)
+            ),
+            box(
+              id = ns("box_polyqtl"), width = 12, solidHeader = FALSE, collapsible = TRUE, collapsed = TRUE, status = "primary", title = tags$b("Upload polyqtlR output"),
+              div(
+                style = "position:absolute;right:1em;",
+                actionButton(ns("submit_polyqtlR"), "Submit polyqtlR", icon("share-square", verify_fa = FALSE), style = "background-color: #B5DDE8 ; border-color: #B5DDE8 ;")
+              ), br(), br(),
+              tags$p(
+                "Access further information about how to perform QTL analysis with polyqtlR ",
+                tags$a(href = "https://cran.r-project.org/web/packages/polyqtlR/vignettes/polyqtlR_vignette.html", "here")
+              ), br(),
+              tags$p(
+                "Access a example code of how to obtain these inputs using polyqtlR functions ",
+                tags$a(href = "https://cristianetaniguti.github.io/viewpoly_vignettes/VIEWpoly_tutorial.html#Upload_QTL_analysis_files", "here")
+              ),
+              hr(),
+              fileInput(ns("polyqtlR_effects"), label = h6("File: polyqtlR_effects.RData"), multiple = F), hr(),
+              fileInput(ns("polyqtlR_qtl_info"), label = h6("File: polyqtlR_qtl_info.RData"), multiple = F),
+              fileInput(ns("polyqtlR_QTLscan_list"), label = h6("File: polyqtlR_QTLscan_list.RData"), multiple = F)
+            ),
+            box(
+              id = ns("box_qtlst"), width = 12, solidHeader = FALSE, collapsible = TRUE, collapsed = TRUE, status = "primary", title = tags$b("Upload QTL analysis results with standard format (.csv, .tsv or .tsv.gz)"),
+              div(
+                style = "position:absolute;right:1em;",
+                actionButton(ns("submit_qtl_custom"), "Submit QTL custom", icon("share-square", verify_fa = FALSE), style = "background-color: #B5DDE8 ; border-color: #B5DDE8 ;")
+              ), br(), br(),
+              fileInput(ns("selected_mks"), label = h6("File: selected_mks.tsv"), multiple = F),
+              fileInput(ns("qtl_info"), label = h6("File: qtl_info.tsv"), multiple = F),
+              fileInput(ns("blups"), label = h6("File: blups.tsv"), multiple = F),
+              fileInput(ns("beta.hat"), label = h6("File: beta.hat.tsv"), multiple = F),
+              fileInput(ns("profile"), label = h6("File: profile.tsv"), multiple = F),
+              fileInput(ns("effects"), label = h6("File: effects.tsv"), multiple = F),
+              fileInput(ns("probs"), label = h6("File: probs.tsv"), multiple = F),
+              "Check the input format with the example file:", br(), br(),
+              radioButtons(ns("downloadType_qtl"), "",
+                choices = c(
+                  "selected_mks.tsv" = "selected_mks",
+                  "qtl_info.tsv" = "qtl_info",
+                  "blups.tsv" = "blups",
+                  "beta.hat.tsv" = "beta.hat",
+                  "profile.tsv" = "profile",
+                  "effects.tsv" = "effects",
+                  "probs.tsv" = "probs"
+                ),
+                inline = TRUE
+              ), br(), br(),
+              downloadButton(ns("downloadData_qtl"), "Download")
+            )
+          )
+        )
       ), br(),
-      column(width = 12,
-             fluidPage(
-               box(id = ns("box_genome"),width = 12, solidHeader = TRUE, collapsible = TRUE, collapsed = TRUE, status="primary", title = actionLink(inputId = ns("genomeID"), label = tags$b("Upload Genome Browser files")),
-                   tags$p("Access further information about the files expected in this section ", 
-                          tags$a(href= "https://gmod.github.io/JBrowseR/articles/creating-urls.html","here")), br(),
-                   
-                   column(6,
-                          tags$h5(tags$b("Upload genome information")),
-                          box(
-                            width = NULL, background = "red",
-                            "Warning! The uploaded .fasta, .gff3, .vcf, .bam, .cram, .wig genome version must be the same one used to build the genetic map"
-                          )
-                   ), 
-                   column(6,
-                          div(style = "position:absolute;right:1em;",
-                              actionBttn(ns("reset_genome"), style = "jelly", color = "royal",  size = "sm", label = "reset", icon = icon("undo-alt", verify_fa = FALSE)), br(),br(),
-                              actionBttn(ns("submit_genome"), style = "jelly", color = "royal",  size = "sm", label = "submit", icon = icon("share-square", verify_fa = FALSE)), br(),br(),
-                          ), 
-                   ), br(), br(),
-                   column(12,
-                          br(), 
-                          tags$h5(tags$b("Upload .fasta/.fasta.gz and .fasta.fai/.fasta.gz.fai,.fasta.gz.gzi file with assembly information. Using this option, a local HTTP server will be generated.")),
-                          fileInput(ns("fasta"), label = h6("Files: genome_v2.fasta.gz, genome_v2.fasta.gz.fai, genome_v2.fasta.gz.gzi"), multiple = T), 
-                          p("or"), 
-                          tags$h5(tags$b("Add the URL of the hosted FASTA file location. The loading procedure is more efficient using this option.")),
-                          textInput(ns("fasta_server"), label = h6("https://jbrowse.org/genomes/sars-cov2/fasta/sars-cov2.fa.gz"), value = NULL),
-                          br(), hr(),
-                          tags$h5(tags$b("Upload .gff3/.gff3.gz and .gff3.tbi/.gff3.gz.tbi file with annotation information")),
-                          fileInput(ns("gff3"), label = h6("Files: genome_v2.gff3.gz, genome_v2.gff3.gz.tbi"), multiple = T), 
-                          p("or"), 
-                          tags$h5(tags$b("Add the URL of the hosted GFF3 file location. The loading procedure is more efficient using this option.")),
-                          textInput(ns("gff3_server"), label = h6("https://jbrowse.org/genomes/sars-cov2/sars-cov2-annotations.sorted.gff.gz"), value = NULL),
-                          br(), hr(),
-                          tags$h5(tags$b("Upload VCF file with variants information")),
-                          fileInput(ns("vcf"), label = h6("Files: markers.vcf, markers.vcf.tbi"), multiple = T), 
-                          p("or"), 
-                          tags$h5(tags$b("Add the URL of the hosted VCF file location. The loading procedure is more efficient using this option.")),
-                          textInput(ns("vcf_server"), label = h6("https://some/path/file.vcf"), value = NULL),
-                          br(), hr(),
-                          tags$h5(tags$b("Upload .bam and .bam.bai or .cram and .cram.crai file with alignment information")),
-                          fileInput(ns("align"), label = h6("Files: all_ind.bam, all_ind.bam.bai"), multiple = T), 
-                          p("or"), 
-                          tags$h5(tags$b("Add the URL of the hosted BAM or CRAM file location. The loading procedure is more efficient using this option.")),
-                          textInput(ns("align_server"), label = h6("https://some/path/file.bam"), value = NULL),
-                          br(), hr(),
-                          tags$h5(tags$b("Upload .wig file with bigWig information")),
-                          fileInput(ns("wig"), label = h6("File: data.wig"), multiple = F), 
-                          p("or"), 
-                          tags$h5(tags$b("Add the URL of the hosted WIG file location. The loading procedure is more efficient using this option.")),
-                          textInput(ns("wig_server"), label = h6("https://some/path/file.wig"), value = NULL),
-                   )
-               )
-             )
+      column(
+        width = 12,
+        fluidPage(
+          box(
+            id = ns("box_genome"), width = 12, solidHeader = TRUE, collapsible = TRUE, collapsed = TRUE, status = "info", title = tags$b("Upload Genome Browser files"),
+            tags$p(
+              "Access further information about the files expected in this section ",
+              tags$a(href = "https://gmod.github.io/JBrowseR/articles/creating-urls.html", "here")
+            ), br(),
+            fluidRow(
+              column(
+                6,
+                tags$h5(tags$b("Upload genome information")),
+                box(
+                  width = NULL, background = "danger", solidHeader = FALSE, collapsible = FALSE,
+                  "Warning! The uploaded .fasta, .gff3, .vcf, .bam, .cram, .wig genome version must be the same one used to build the genetic map"
+                )
+              ),
+              column(
+                6,
+                div(
+                  style = "text-align:right; padding-top:25px;",
+                  actionButton(ns("reset_genome"), "Reset", icon("undo-alt", verify_fa = FALSE), style = "background-color: #F2A7AE  ; border-color: #F2A7AE  ;"), br(), br(),
+                  actionButton(ns("submit_genome"), "Submit genome file", icon("share-square", verify_fa = FALSE), style = "background-color: #B5DDE8    ; border-color: #B5DDE8    ;")
+                )
+              )
+            ), br(), br(),
+            column(
+              12,
+              br(),
+              tags$h5(tags$b("Upload .fasta/.fasta.gz and .fasta.fai/.fasta.gz.fai,.fasta.gz.gzi file with assembly information. Using this option, a local HTTP server will be generated.")),
+              fileInput(ns("fasta"), label = h6("Files: genome_v2.fasta.gz, genome_v2.fasta.gz.fai, genome_v2.fasta.gz.gzi"), multiple = T),
+              p("or"),
+              tags$h5(tags$b("Add the URL of the hosted FASTA file location. The loading procedure is more efficient using this option.")),
+              textInput(ns("fasta_server"), label = h6("https://jbrowse.org/genomes/sars-cov2/fasta/sars-cov2.fa.gz"), value = NULL),
+              br(), hr(),
+              tags$h5(tags$b("Upload .gff3/.gff3.gz and .gff3.tbi/.gff3.gz.tbi file with annotation information")),
+              fileInput(ns("gff3"), label = h6("Files: genome_v2.gff3.gz, genome_v2.gff3.gz.tbi"), multiple = T),
+              p("or"),
+              tags$h5(tags$b("Add the URL of the hosted GFF3 file location. The loading procedure is more efficient using this option.")),
+              textInput(ns("gff3_server"), label = h6("https://jbrowse.org/genomes/sars-cov2/sars-cov2-annotations.sorted.gff.gz"), value = NULL),
+              br(), hr(),
+              tags$h5(tags$b("Upload VCF file with variants information")),
+              fileInput(ns("vcf"), label = h6("Files: markers.vcf, markers.vcf.tbi"), multiple = T),
+              p("or"),
+              tags$h5(tags$b("Add the URL of the hosted VCF file location. The loading procedure is more efficient using this option.")),
+              textInput(ns("vcf_server"), label = h6("https://some/path/file.vcf"), value = NULL),
+              br(), hr(),
+              tags$h5(tags$b("Upload .bam and .bam.bai or .cram and .cram.crai file with alignment information")),
+              fileInput(ns("align"), label = h6("Files: all_ind.bam, all_ind.bam.bai"), multiple = T),
+              p("or"),
+              tags$h5(tags$b("Add the URL of the hosted BAM or CRAM file location. The loading procedure is more efficient using this option.")),
+              textInput(ns("align_server"), label = h6("https://some/path/file.bam"), value = NULL),
+              br(), hr(),
+              tags$h5(tags$b("Upload .wig file with bigWig information")),
+              fileInput(ns("wig"), label = h6("File: data.wig"), multiple = F),
+              p("or"),
+              tags$h5(tags$b("Add the URL of the hosted WIG file location. The loading procedure is more efficient using this option.")),
+              textInput(ns("wig_server"), label = h6("https://some/path/file.wig"), value = NULL),
+            )
+          )
+        )
       ),
-      column(width = 12,
-             fluidPage(
-               box(id = ns("box_hidecan"),width = 12, solidHeader = TRUE, collapsible = TRUE, collapsed = TRUE, status="primary", title = actionLink(inputId = ns("hidecanID"), label = tags$b("Upload Hidecan files")),
-                   tags$p("Access further information about the files expected in this section ", 
-                          tags$a(href= "https://plantandfoodresearch.github.io/hidecan/","here")), br(),
-                   
-                   div(style = "position:absolute;right:1em;",
-                       actionBttn(ns("reset_hidecan"), style = "jelly", color = "royal",  size = "sm", label = "reset", icon = icon("undo-alt", verify_fa = FALSE)),
-                       actionBttn(ns("submit_hidecan"), style = "jelly", color = "royal",  size = "sm", label = "submit HIDECAN", icon = icon("share-square", verify_fa = FALSE)), 
-                   ), br(), br(), 
-                   box(id= ns("box_gwaspoly"), width = 12, solidHeader = FALSE, collapsible = TRUE, collapsed = TRUE,  status="primary", title = actionLink(inputId = ns("gwaspolyID"), label = tags$b("Upload GWAS output")),
-                       div(style = "position:absolute;right:1em;",
-                       ), br(), br(),
-                       p("Object of class GWASpoly.thresh obtained with the GWASpoly::set.threshold():"), br(),
-                       fileInput(ns("gwaspoly"), label = h6("File: gwaspoly_res_thr.rda"), multiple = T),
-                       p("or"),
-                       fileInput(ns("gwas"), label = h6("File: gwas.csv"), multiple = T)
-                   ),
-                   box(id= ns("box_gwas_de"), width = 12, solidHeader = FALSE, collapsible = TRUE, collapsed = TRUE,  status="primary", title = actionLink(inputId = ns("gwasID"), label = tags$b("Upload differential expression (DE) and candidate genes (CAN) files")),
-                       div(style = "position:absolute;right:1em;",
-                       ), br(), br(),
-                       fileInput(ns("de"), label = h6("File: DE.csv"), multiple = T),
-                       fileInput(ns("can"), label = h6("File: CAN.csv"), multiple = T)
-                   )
-               )
-             )
+      column(
+        width = 12,
+        fluidPage(
+          box(
+            id = ns("box_hidecan"), width = 12, solidHeader = TRUE, collapsible = TRUE, collapsed = TRUE, status = "info", title = tags$b("Upload Hidecan files"),
+            fluidRow(
+              column(
+                6,
+                tags$p(
+                  "Access further information about the files expected in this section ",
+                  tags$a(href = "https://plantandfoodresearch.github.io/hidecan/", "here")
+                ), br(),
+              ),
+              column(
+                6,
+                div(
+                  style = "text-align:right; padding-top:25px;",
+                  actionButton(ns("reset_hidecan"), "Reset", icon("undo-alt", verify_fa = FALSE), style = "background-color: #F2A7AE ; border-color: #F2A7AE ;"), br(), br(),
+                  actionButton(ns("submit_hidecan"), "Submit HIDECAN file", icon("share-square", verify_fa = FALSE), style = "background-color: #B5DDE8 ; border-color: #B5DDE8 ;")
+                )
+              )
+            ), br(), br(),
+            box(
+              id = ns("box_gwaspoly"), width = 12, solidHeader = FALSE, collapsible = TRUE, collapsed = TRUE, status = "primary", title = tags$b("Upload GWAS output"),
+              div(style = "position:absolute;right:1em;", ), br(), br(),
+              p("Object of class GWASpoly.thresh obtained with the GWASpoly::set.threshold():"), br(),
+              fileInput(ns("gwaspoly"), label = h6("File: gwaspoly_res_thr.rda"), multiple = T),
+              p("or"),
+              fileInput(ns("gwas"), label = h6("File: gwas.csv"), multiple = T)
+            ),
+            box(
+              id = ns("box_gwas_de"), width = 12, solidHeader = FALSE, collapsible = TRUE, collapsed = TRUE, status = "primary", title = tags$b("Upload differential expression (DE) and candidate genes (CAN) files"),
+              div(style = "position:absolute;right:1em;", ), br(), br(),
+              fileInput(ns("de"), label = h6("File: DE.csv"), multiple = T),
+              fileInput(ns("can"), label = h6("File: CAN.csv"), multiple = T)
+            )
+          )
+        )
       ),
-      column(width = 12,
-             fluidPage(
-               box(id = ns("box_viewpoly"),width = 12, solidHeader = TRUE, collapsible = TRUE, collapsed = TRUE, status="info", title = actionLink(inputId = ns("viewpolyID"), label = tags$b("Download VIEWpoly dataset")),
-                   p("The uploaded data are converted to the viewpoly format. It keeps the map and the QTL information. Genome information is not stored."), br(),
-                   textInput(ns("data.name"), label = p("Define the dataset name. Do not use spaces between words."), value = "dataset_name"), br(),
-                   tags$head(tags$style(".butt{background-color:#add8e6; border-color: #add8e6; color: #337ab7;}")),
-                   useShinyjs(),
-                   downloadButton(ns('export_viewpoly'), "Download", class = "butt")
-               )
-             )
+      column(
+        width = 12,
+        fluidPage(
+          box(
+            id = ns("box_viewpoly"), width = 12, solidHeader = TRUE, collapsible = TRUE, collapsed = TRUE, status = "indigo", title = tags$b("Download VIEWpoly dataset"),
+            p("The uploaded data are converted to the viewpoly format. It keeps the map and the QTL information. Genome information is not stored."), br(),
+            textInput(ns("data.name"), label = p("Define the dataset name. Do not use spaces between words."), value = "dataset_name"), br(),
+            tags$head(tags$style(".butt{background-color:#add8e6; border-color: #add8e6; color: #337ab7;}")),
+            useShinyjs(),
+            downloadButton(ns("export_viewpoly"), "Download", class = "butt")
+          )
+        )
       ),
-      column(width = 12,
-             fluidPage(
-               box(id = ns("box_viewpolyup"),width = 12, solidHeader = TRUE, collapsible = TRUE, collapsed = FALSE, status="info", title = actionLink(inputId = ns("viewpolyupID"), label = tags$b("Upload VIEWpoly dataset")),
-                   column(8,
-                          radioButtons(ns("viewpoly_env"), width = 500, label = "Check one of the availables datasets:", 
-                                       choices = "There is no VIEWpoly object in your R environment. Load VIEWpoly object or convert other formats below.",
-                                       selected =  "There is no VIEWpoly object in your R environment. Load VIEWpoly object or convert other formats below."), br(),
-                   ),
-                   column(4,
-                          div(style = "position:absolute;right:1em;",
-                              actionBttn(ns("reset_viewpoly"), style = "jelly", color = "royal",  size = "sm", label = "reset", icon = icon("undo-alt", verify_fa = FALSE)), br(), br(),
-                              actionBttn(ns("submit_viewpoly"), style = "jelly", color = "royal",  size = "sm", label = "submit VIEWpoly file", icon = icon("share-square", verify_fa = FALSE))
-                          )
-                   ), 
-                   column(12,
-                          br(), br(), hr(),
-                          p("Upload VIEWpoly RData file here:"), 
-                          fileInput(ns("viewpoly_input"), label = h6("File: dataset_name.RData"), multiple = F)
-                   )
-               )
-             )
+      column(
+        width = 12,
+        fluidPage(
+          box(
+            id = ns("box_viewpolyup"), width = 12, solidHeader = TRUE, collapsible = TRUE, collapsed = FALSE, status = "indigo", title = tags$b("Upload VIEWpoly dataset"),
+            fluidRow(
+              column(
+                8,
+                radioButtons(ns("viewpoly_env"),
+                  width = 500, label = "Check one of the availables datasets:",
+                  choices = "There is no VIEWpoly object in your R environment. Load VIEWpoly object or convert other formats below.",
+                  selected = "There is no VIEWpoly object in your R environment. Load VIEWpoly object or convert other formats below."
+                )
+              ),
+              column(
+                4,
+                div(
+                  style = "text-align:right; padding-top:25px;",
+                  actionButton(ns("reset_viewpoly"), "Reset", icon("undo-alt", verify_fa = FALSE), style = "background-color: #F2A7AE ; border-color: #F2A7AE ;"), br(), br(),
+                  actionButton(ns("submit_viewpoly"), "Submit VIEWpoly file", icon("share-square", verify_fa = FALSE), style = "background-color: #B5DDE8 ; border-color: #B5DDE8 ;")
+                )
+              )
+            ),
+            column(
+              12,
+              br(), hr(),
+              p("Upload VIEWpoly RData file here:"),
+              fileInput(ns("viewpoly_input"), label = h6("File: dataset_name.RData"), multiple = F)
+            )
+          )
+        )
       )
     )
   )
@@ -316,140 +424,134 @@ mod_upload_ui <- function(id){
 #' @import vroom
 #' @importFrom shinyjs js
 #' @importFrom utils packageVersion
-#' 
-#' @noRd 
-mod_upload_server <- function(input, output, session, parent_session){
+#'
+#' @noRd
+mod_upload_server <- function(input, output, session, parent_session) {
   ns <- session$ns
-  
-  
-  #Collapse boxes
-  observeEvent(input$exampleID, {
-    js$collapse(ns("box_example"))
+
+
+  # Help links
+  observeEvent(input$goPar, {
+    # change to help tab
+    updatebs4TabItems(
+      session = parent_session, inputId = "MainMenu",
+      selected = "help"
+    )
+
+    # select specific tab
+    updateTabsetPanel(
+      session = parent_session, inputId = "Inputs_tabset",
+      selected = "Inputs_par"
+    )
+    # expand specific box
+    updateBox(id = "Inputs_box", action = "toggle", session = parent_session)
   })
-  
-  observeEvent(input$mapID, {
-    js$collapse(ns("box_map"))
+
+  observeEvent(input$goRes, {
+    # change to help tab
+    updatebs4TabItems(
+      session = parent_session, inputId = "MainMenu",
+      selected = "help"
+    )
+
+    # select specific tab
+    updateTabsetPanel(
+      session = parent_session, inputId = "Inputs_tabset",
+      selected = "Inputs_results"
+    )
+    # expand specific box
+    updateBox(id = "Inputs_box", action = "toggle", session = parent_session)
   })
-  
-  observeEvent(input$mappolyID, {
-    js$collapse(ns("box_mappoly"))
+
+  observeEvent(input$goCite, {
+    # change to help tab
+    updatebs4TabItems(
+      session = parent_session, inputId = "MainMenu",
+      selected = "help"
+    )
+
+    # select specific tab
+    updateTabsetPanel(
+      session = parent_session, inputId = "Inputs_tabset",
+      selected = "Inputs_cite"
+    )
+    # expand specific box
+    updateBox(id = "Inputs_box", action = "toggle", session = parent_session)
   })
-  
-  observeEvent(input$onemapID, {
-    js$collapse(ns("box_onemap"))
-  })
-  
-  observeEvent(input$polymapID, {
-    js$collapse(ns("box_polymap"))
-  })
-  
-  observeEvent(input$mapstID, {
-    js$collapse(ns("box_mapst"))
-  })
-  
-  observeEvent(input$qtlID, {
-    js$collapse(ns("box_qtl"))
-  })
-  
-  observeEvent(input$qtlpolyID, {
-    js$collapse(ns("box_qtlpoly"))
-  })
-  
-  observeEvent(input$diaqtlID, {
-    js$collapse(ns("box_diaqtl"))
-  })
-  
-  observeEvent(input$polyqtlID, {
-    js$collapse(ns("box_polyqtl"))
-  })
-  
-  observeEvent(input$qtlstID, {
-    js$collapse(ns("box_qtlst"))
-  })
-  
-  observeEvent(input$genomeID, {
-    js$collapse(ns("box_genome"))
-  })
-  
-  observeEvent(input$hidecanID, {
-    js$collapse(ns("box_hidecan"))
-  })
-  
-  observeEvent(input$viewpolyID, {
-    js$collapse(ns("box_viewpoly"))
-  })
-  
-  observeEvent(input$viewpolyupID, {
-    js$collapse(ns("box_viewpolyup"))
-  })
-  
+
   # Check environment
   observe({
-    Objs <- Filter(function(x) inherits(get(x), 'viewpoly' ), ls(envir = .GlobalEnv) )
-    if(length(Objs) > 0){
+    Objs <- Filter(function(x) inherits(get(x), "viewpoly"), ls(envir = .GlobalEnv))
+    if (length(Objs) > 0) {
       dataset_choices <- as.list(Objs)
       names(dataset_choices) <- Objs
       updateRadioButtons(session, "viewpoly_env",
-                         label="Check one of the availables datasets:",
-                         choices = dataset_choices,
-                         selected= character(0))
+        label = "Check one of the availables datasets:",
+        choices = dataset_choices,
+        selected = character(0)
+      )
     } else {
       updateRadioButtons(session, "viewpoly_env",
-                         label="Check one of the availables datasets:",
-                         choices = "There is no viewpoly object in your R environment. Load view viewpoly object or convert formats below",
-                         selected= character(0))
+        label = "Check one of the availables datasets:",
+        choices = "There is no viewpoly object in your R environment. Load view viewpoly object or convert formats below",
+        selected = character(0)
+      )
     }
   })
-  
+
   # Format examples
   output$downloadData_map <- downloadHandler(
     filename = function() {
       paste0(input$downloadType_map, ".tsv")
     },
     content = function(file) {
-      if(input$downloadType_map == "dosages") {
+      if (input$downloadType_map == "dosages") {
         filetemp <- vroom(system.file("ext/dosage.tsv.gz", package = "viewpoly"))
-      } else if(input$downloadType_map == "phases") {
+      } else if (input$downloadType_map == "phases") {
         filetemp <- vroom(system.file("ext/phases.tsv.gz", package = "viewpoly"))
-      } else if(input$downloadType_map == "genetic_map") {
+      } else if (input$downloadType_map == "genetic_map") {
         filetemp <- vroom(system.file("ext/map.tsv.gz", package = "viewpoly"))
-      } 
+      }
       vroom_write(filetemp, file = file)
     }
   )
-  
+
   output$downloadData_qtl <- downloadHandler(
     filename = function() {
       paste0(input$downloadType_qtl, ".tsv")
     },
     content = function(file) {
-      if(input$downloadType_qtl == "qtl_info") {
+      if (input$downloadType_qtl == "qtl_info") {
         filetemp <- vroom(system.file("ext/qtl_info.tsv.gz", package = "viewpoly"))
-      } else if(input$downloadType_qtl == "blups") {
+      } else if (input$downloadType_qtl == "blups") {
         filetemp <- vroom(system.file("ext/blups.tsv.gz", package = "viewpoly"))
-      } else if(input$downloadType_qtl == "beta.hat") {
+      } else if (input$downloadType_qtl == "beta.hat") {
         filetemp <- vroom(system.file("ext/beta.hat.tsv.gz", package = "viewpoly"))
-      } else if(input$downloadType_qtl == "profile.hat") {
+      } else if (input$downloadType_qtl == "profile.hat") {
         filetemp <- vroom(system.file("ext/profile.tsv.gz", package = "viewpoly"))
-      } else if(input$downloadType_qtl == "effects.hat") {
+      } else if (input$downloadType_qtl == "effects.hat") {
         filetemp <- vroom(system.file("ext/effects.tsv.gz", package = "viewpoly"))
-      } else if(input$downloadType_qtl == "probs") {
+      } else if (input$downloadType_qtl == "probs") {
         filetemp <- vroom(system.file("ext/probs.tsv.gz", package = "viewpoly"))
-      } 
+      }
       vroom_write(filetemp, file = file)
     }
   )
-  
+
   observeEvent(input$goQTL, {
-    updateTabsetPanel(session = parent_session, inputId = "viewpoly",
-                      selected = "qtl")
+    updateTabsetPanel(
+      session = parent_session, inputId = "MainMenu",
+      selected = "qtl"
+    )
   })
-  
+
   observeEvent(input$goAbout, {
-    updateTabsetPanel(session = parent_session, inputId = "viewpoly",
-                      selected = "about")
+    updateTabsetPanel(
+      session = parent_session, inputId = "MainMenu",
+      selected = "welcome"
+    )
   })
-  
+
   # Reset buttons
   values <- reactiveValues(
     upload_state_map = 0,
@@ -465,153 +567,157 @@ mod_upload_server <- function(input, output, session, parent_session){
     upload_state_genome = 0,
     upload_state_hidecan = 0
   )
-  
+
   observeEvent(input$reset_all, {
-    values$upload_state_viewpoly <- 'reset'
-    values$upload_state_map <- 'reset'
-    values$upload_state_mappoly = 0
-    values$upload_state_onemap = 0
-    values$upload_state_polymapR = 0
-    values$upload_state_map_custom = 0
-    values$upload_state_qtl <- 'reset'
-    values$upload_state_qtlpoly = 0
-    values$upload_state_diaQTL = 0
-    values$upload_state_polyqtlR = 0
-    values$upload_state_qtl_custom = 0
-    values$upload_state_genome <- 'reset'
-    values$upload_state_hidecan <- 'reset'
+    values$upload_state_viewpoly <- "reset"
+    values$upload_state_map <- "reset"
+    values$upload_state_mappoly <- 0
+    values$upload_state_onemap <- 0
+    values$upload_state_polymapR <- 0
+    values$upload_state_map_custom <- 0
+    values$upload_state_qtl <- "reset"
+    values$upload_state_qtlpoly <- 0
+    values$upload_state_diaQTL <- 0
+    values$upload_state_polyqtlR <- 0
+    values$upload_state_qtl_custom <- 0
+    values$upload_state_genome <- "reset"
+    values$upload_state_hidecan <- "reset"
   })
-  
+
   observeEvent(input$reset_viewpoly, {
-    values$upload_state_viewpoly <- 'reset'
+    values$upload_state_viewpoly <- "reset"
   })
-  
+
   observeEvent(input$reset_map, {
-    values$upload_state_map <- 'reset'
-    values$upload_state_mappoly = 0
-    values$upload_state_onemap = 0
-    values$upload_state_polymapR = 0
-    values$upload_state_map_custom = 0
+    values$upload_state_map <- "reset"
+    values$upload_state_mappoly <- 0
+    values$upload_state_onemap <- 0
+    values$upload_state_polymapR <- 0
+    values$upload_state_map_custom <- 0
   })
-  
+
   observeEvent(input$reset_qtl, {
-    values$upload_state_qtl <- 'reset'
-    values$upload_state_qtlpoly = 0
-    values$upload_state_diaQTL = 0
-    values$upload_state_polyqtlR = 0
-    values$upload_state_qtl_custom = 0
+    values$upload_state_qtl <- "reset"
+    values$upload_state_qtlpoly <- 0
+    values$upload_state_diaQTL <- 0
+    values$upload_state_polyqtlR <- 0
+    values$upload_state_qtl_custom <- 0
   })
-  
+
   observeEvent(input$reset_genome, {
-    values$upload_state_genome <- 'reset'
+    values$upload_state_genome <- "reset"
   })
-  
+
   observeEvent(input$reset_hidecan, {
-    values$upload_state_hidecan <- 'reset'
+    values$upload_state_hidecan <- "reset"
   })
-  
+
   observeEvent(input$submit_viewpoly, {
-    values$upload_state_viewpoly <- 'uploaded'
+    values$upload_state_viewpoly <- "uploaded"
   })
-  
+
   observeEvent(input$submit_mappoly, {
-    values$upload_state_mappoly <- 'uploaded'
+    values$upload_state_mappoly <- "uploaded"
     values$upload_state_map <- 0
   })
-  
+
   observeEvent(input$submit_onemap, {
-    values$upload_state_onemap <- 'uploaded'
+    values$upload_state_onemap <- "uploaded"
     values$upload_state_map <- 0
   })
-  
+
   observeEvent(input$submit_polymapR, {
-    values$upload_state_polymapR <- 'uploaded'
+    values$upload_state_polymapR <- "uploaded"
     values$upload_state_map <- 0
   })
-  
+
   observeEvent(input$submit_map_custom, {
-    values$upload_state_map_custom <- 'uploaded'
+    values$upload_state_map_custom <- "uploaded"
     values$upload_state_map <- 0
   })
-  
+
   observeEvent(input$submit_qtlpoly, {
-    values$upload_state_qtlpoly <- 'uploaded'
-    values$upload_state_qtl = 0
+    values$upload_state_qtlpoly <- "uploaded"
+    values$upload_state_qtl <- 0
   })
-  
+
   observeEvent(input$submit_diaQTL, {
-    values$upload_state_diaQTL <- 'uploaded'
-    values$upload_state_qtl = 0
+    values$upload_state_diaQTL <- "uploaded"
+    values$upload_state_qtl <- 0
   })
-  
+
   observeEvent(input$submit_polyqtlR, {
-    values$upload_state_polyqtlR <- 'uploaded'
-    values$upload_state_qtl = 0
+    values$upload_state_polyqtlR <- "uploaded"
+    values$upload_state_qtl <- 0
   })
-  
+
   observeEvent(input$submit_qtl_custom, {
-    values$upload_state_qtl_custom <- 'uploaded'
-    values$upload_state_qtl = 0
+    values$upload_state_qtl_custom <- "uploaded"
+    values$upload_state_qtl <- 0
   })
-  
+
   observeEvent(input$submit_genome, {
-    values$upload_state_genome <- 'uploaded'
+    values$upload_state_genome <- "uploaded"
   })
-  
+
   observeEvent(input$submit_hidecan, {
-    values$upload_state_hidecan <- 'uploaded'
+    values$upload_state_hidecan <- "uploaded"
   })
-  
+
   input_map <- reactive({
-    if (values$upload_state_map == 0 & 
-        values$upload_state_mappoly == 0 & 
-        values$upload_state_onemap == 0 & 
-        values$upload_state_polymapR == 0 &
-        values$upload_state_map_custom == 0) {
+    if (values$upload_state_map == 0 &
+      values$upload_state_mappoly == 0 &
+      values$upload_state_onemap == 0 &
+      values$upload_state_polymapR == 0 &
+      values$upload_state_map_custom == 0) {
       return(NULL)
-    } else if (values$upload_state_map == 'reset') {
+    } else if (values$upload_state_map == "reset") {
       return(NULL)
-    } else if(values$upload_state_mappoly == "uploaded"){
+    } else if (values$upload_state_mappoly == "uploaded") {
       validate(
         need(!is.null(input$mappoly_in), "Upload mappoly file before submit")
       )
       return(list(mappoly_in = input$mappoly_in))
-    } else if(values$upload_state_onemap == "uploaded"){
+    } else if (values$upload_state_onemap == "uploaded") {
       validate(
         need(!is.null(input$onemap_in), "Upload onemap file before submit")
       )
       return(list(onemap_in = input$onemap_in))
-    } else if(values$upload_state_polymapR == "uploaded"){
+    } else if (values$upload_state_polymapR == "uploaded") {
       validate(
         need(!is.null(input$polymapR.dataset), "Upload polymapR dataset file before submit"),
         need(!is.null(input$polymapR.map), "Upload polymapR map file before submit")
       )
-      return(list(polymapR.dataset = input$polymapR.dataset,
-                  polymapR.map = input$polymapR.map, 
-                  input.type = input$input.type, 
-                  ploidy = as.numeric(input$ploidy)))
-    } else if(values$upload_state_map_custom == "uploaded"){
+      return(list(
+        polymapR.dataset = input$polymapR.dataset,
+        polymapR.map = input$polymapR.map,
+        input.type = input$input.type,
+        ploidy = as.numeric(input$ploidy)
+      ))
+    } else if (values$upload_state_map_custom == "uploaded") {
       validate(
         need(!is.null(input$dosages), "Upload custom dosages file before submit"),
         need(!is.null(input$phases), "Upload custom phases file before submit"),
         need(!is.null(input$genetic_map), "Upload custom genetic map file before submit")
       )
-      return(list(dosages = input$dosages,
-                  phases = input$phases,
-                  genetic_map = input$genetic_map))
+      return(list(
+        dosages = input$dosages,
+        phases = input$phases,
+        genetic_map = input$genetic_map
+      ))
     }
   })
-  
+
   input_qtl <- reactive({
-    if (values$upload_state_qtl == 0 & 
-        values$upload_state_qtlpoly == 0 & 
-        values$upload_state_diaQTL == 0 &
-        values$upload_state_polyqtlR == 0 &
-        values$upload_state_qtl_custom == 0) {
+    if (values$upload_state_qtl == 0 &
+      values$upload_state_qtlpoly == 0 &
+      values$upload_state_diaQTL == 0 &
+      values$upload_state_polyqtlR == 0 &
+      values$upload_state_qtl_custom == 0) {
       return(NULL)
-    } else if (values$upload_state_qtl == 'reset') {
+    } else if (values$upload_state_qtl == "reset") {
       return(NULL)
-    } else if(values$upload_state_qtl_custom == "uploaded"){
+    } else if (values$upload_state_qtl_custom == "uploaded") {
       validate(
         need(!is.null(input$dosages), "Upload custom selected markers file before submit"),
         need(!is.null(input$phases), "Upload custom QTL info file before submit"),
@@ -621,14 +727,16 @@ mod_upload_server <- function(input, output, session, parent_session){
         need(!is.null(input$effects), "Upload custom effects file before submit"),
         need(!is.null(input$probs), "Upload custom genotype probabilities file before submit")
       )
-      return(list(selected_mks = input$selected_mks,
-                  qtl_info = input$qtl_info,
-                  blups = input$blups,
-                  beta.hat = input$beta.hat,
-                  profile = input$profile,
-                  effects = input$effects,
-                  probs = input$probs))
-    } else if(values$upload_state_qtlpoly == "uploaded"){
+      return(list(
+        selected_mks = input$selected_mks,
+        qtl_info = input$qtl_info,
+        blups = input$blups,
+        beta.hat = input$beta.hat,
+        profile = input$profile,
+        effects = input$effects,
+        probs = input$probs
+      ))
+    } else if (values$upload_state_qtlpoly == "uploaded") {
       validate(
         need(!is.null(input$qtlpoly_data), "Upload QTLpoly data file before submit"),
         need(!is.null(input$qtlpoly_remim.mod), "Upload QTLpoly remim.mod file before submit"),
@@ -639,8 +747,9 @@ mod_upload_server <- function(input, output, session, parent_session){
         qtlpoly_data = input$qtlpoly_data,
         qtlpoly_remim.mod = input$qtlpoly_remim.mod,
         qtlpoly_est.effects = input$qtlpoly_est.effects,
-        qtlpoly_fitted.mod = input$qtlpoly_fitted.mod))
-    } else if(values$upload_state_diaQTL == "uploaded"){
+        qtlpoly_fitted.mod = input$qtlpoly_fitted.mod
+      ))
+    } else if (values$upload_state_diaQTL == "uploaded") {
       validate(
         need(!is.null(input$diaQTL_scan1), "Upload diaQTL scan1 file before submit"),
         need(!is.null(input$diaQTL_scan1.summaries), "Upload diaQTL scan1.summaries file before submit"),
@@ -653,7 +762,7 @@ mod_upload_server <- function(input, output, session, parent_session){
         diaQTL_fitQTL = input$diaQTL_fitQTL,
         diaQTL_BayesCI = input$diaQTL_BayesCI
       ))
-    } else if(values$upload_state_polyqtlR == "uploaded"){
+    } else if (values$upload_state_polyqtlR == "uploaded") {
       validate(
         need(!is.null(input$qtlpoly_data), "Upload polyqtlR scan list file before submit"),
         need(!is.null(input$qtlpoly_remim.mod), "Upload polyqtlR QTL info file before submit"),
@@ -664,434 +773,506 @@ mod_upload_server <- function(input, output, session, parent_session){
         polyqtlR_qtl_info = input$polyqtlR_qtl_info,
         polyqtlR_effects = input$polyqtlR_effects
       ))
-    } 
+    }
   })
-  
-  input_genome  <- reactive({
-    withProgress(message = 'Working:', value = 0, {
+
+  input_genome <- reactive({
+    withProgress(message = "Working:", value = 0, {
       incProgress(0.1, detail = paste("Uploading fasta path..."))
       if (is.null(values$upload_state_genome)) {
         return(NULL)
-      } else if (values$upload_state_genome == 'reset') {
+      } else if (values$upload_state_genome == "reset") {
         return(NULL)
-      } else if(values$upload_state_genome == "uploaded"){
+      } else if (values$upload_state_genome == "uploaded") {
         validate(
           need(!is.null(input$fasta) | !is.null(input$fasta_server), "Upload reference genome (FASTA) file before submit.")
         )
-        return(list(fasta = input$fasta,
-                    fasta_server = input$fasta_server,
-                    gff3 = input$gff3,
-                    gff3_server = input$gff3_server,
-                    vcf = input$vcf,
-                    vcf_server = input$vcf_server,
-                    align = input$align,
-                    align_server = input$align_server,
-                    wig = input$wig,
-                    wig_server = input$wig_server))
+        return(list(
+          fasta = input$fasta,
+          fasta_server = input$fasta_server,
+          gff3 = input$gff3,
+          gff3_server = input$gff3_server,
+          vcf = input$vcf,
+          vcf_server = input$vcf_server,
+          align = input$align,
+          align_server = input$align_server,
+          wig = input$wig,
+          wig_server = input$wig_server
+        ))
       }
     })
   })
-  
+
   input_hidecan <- reactive({
     if (values$upload_state_hidecan == 0) {
       return(NULL)
-    } else if (values$upload_state_hidecan == 'reset') {
+    } else if (values$upload_state_hidecan == "reset") {
       return(NULL)
-    } else if(values$upload_state_hidecan == "uploaded"){
+    } else if (values$upload_state_hidecan == "uploaded") {
       validate(
-        need(!all(c(is.null(input$gwas),is.null(input$gwaspoly))), "Upload GWAS results file before submit")
+        need(!all(c(is.null(input$gwas), is.null(input$gwaspoly))), "Upload GWAS results file before submit")
       )
-      
-      if(!is.null(input$gwaspoly)) {
-        
-        for(i in 1:length(input$gwaspoly$datapath)){
+
+      if (!is.null(input$gwaspoly)) {
+        for (i in 1:length(input$gwaspoly$datapath)) {
           temp123 <- load(input$gwaspoly$datapath[i])
           gwaspoly_temp <- get(temp123)
           gwaspoly_list <- GWAS_data_from_gwaspoly(gwaspoly_temp)
 
-          if(i == 1) gwaspoly <- gwaspoly_list else {
-            if(!all(gwaspoly$chrom_length == gwaspoly_list$chrom_length)) {
+          if (i == 1) {
+            gwaspoly <- gwaspoly_list
+          } else {
+            if (!all(gwaspoly$chrom_length == gwaspoly_list$chrom_length)) {
               # If same chromosome but different chromosomes length - keep the maximum
-              if(all(gwaspoly$chrom_length$chromosome == gwaspoly_list$chrom_length$chromosome)){
+              if (all(gwaspoly$chrom_length$chromosome == gwaspoly_list$chrom_length$chromosome)) {
                 idx <- which(gwaspoly$chrom_length$length < gwaspoly_list$chrom_length$length)
-                if(length(idx) > 0)
-                  gwaspoly$chrom_length$length[idx] <-  gwaspoly_list$chrom_length$length[idx]
-              } else stop("Not same reference genome used")
+                if (length(idx) > 0) {
+                  gwaspoly$chrom_length$length[idx] <- gwaspoly_list$chrom_length$length[idx]
+                }
+              } else {
+                stop("Not same reference genome used")
+              }
             }
             gwaspoly$gwas_data_list <- c(gwaspoly$gwas_data_list, gwaspoly_list$gwas_data_list)
             gwaspoly$gwas_data_thr_list <- c(gwaspoly$gwas_data_thr_list, gwaspoly_list$gwas_data_thr_list)
           }
         }
-        
-      } else gwaspoly <- NULL
-      
-      return(list(GWASpoly = gwaspoly,
-                  GWAS = {if(!is.null(input$gwas)) read_input_hidecan(input$gwas, GWAS_data) else list()},
-                  DE = {if(!is.null(input$de)) read_input_hidecan(input$de, DE_data) else list()},
-                  CAN = {if(!is.null(input$can)) read_input_hidecan(input$can, CAN_data) else list()}))
-    } 
+      } else {
+        gwaspoly <- NULL
+      }
+
+      return(list(
+        GWASpoly = gwaspoly,
+        GWAS = {
+          if (!is.null(input$gwas)) read_input_hidecan(input$gwas, GWAS_data) else list()
+        },
+        DE = {
+          if (!is.null(input$de)) read_input_hidecan(input$de, DE_data) else list()
+        },
+        CAN = {
+          if (!is.null(input$can)) read_input_hidecan(input$can, CAN_data) else list()
+        }
+      ))
+    }
   })
-  
+
   # Wait system for the uploads
-  loadExample = reactive({
-    if(is.null(input_map()$dosages) & is.null(input_map()$phases) & is.null(input_map()$genetic_map) &
-       is.null(input_map()$mappoly_in) &
-       is.null(input_map()$onemap_in) &
-       is.null(input_map()$polymapR.dataset) &
-       is.null(input_map()$polymapR.map) &
-       is.null(input_qtl()$selected_mks) & 
-       is.null(input_qtl()$qtl_info) & 
-       is.null(input_qtl()$blups) & 
-       is.null(input_qtl()$beta.hat) & 
-       is.null(input_qtl()$profile) & 
-       is.null(input_qtl()$effects) & 
-       is.null(input_qtl()$probs) &
-       is.null(input_qtl()$qtlpoly_data) & 
-       is.null(input_qtl()$qtlpoly_remim.mod) &
-       is.null(input_qtl()$qtlpoly_est.effects) &
-       is.null(input_qtl()$qtlpoly_fitted.mod) &
-       is.null(input_qtl()$diaQTL_data) & 
-       is.null(input_qtl()$diaQTL_scan1) &
-       is.null(input_qtl()$diaQTL_scan1.summaries) &
-       is.null(input_qtl()$diaQTL_fitQTL) &
-       is.null(input_qtl()$diaQTL_BayesCI) &
-       is.null(input_qtl()$polyqtlR_QTLscan_list) & 
-       is.null(input_qtl()$polyqtlR_qtl_info) &
-       is.null(input_qtl()$polyqtlR_effects) &
-       is.null(input_genome()$fasta) &
-       is.null(input_genome()$fasta_server) &
-       is.null(input_genome()$gff3) &
-       is.null(input_genome()$gff3_server) &
-       is.null(input_genome()$vcf) &
-       is.null(input_genome()$vcf_server) &
-       is.null(input_genome()$align) &
-       is.null(input_genome()$align_server) &
-       is.null(input_genome()$wig) &
-       is.null(input_genome()$wig_server) &
-       is.null(input$viewpoly_input) &
-       is.null(input$viewpoly_env))
-    withProgress(message = 'Working:', value = 0, {
-      incProgress(0.5, detail = paste("Uploading example map data..."))
-      prepare_examples(input$example_map)
-    })
-    else NULL
-  })
-  
-  # Load hidecan example
-  loadHidecanExample = reactive({
-    if(is.null(input_hidecan()$gwas) & is.null(input_hidecan()$de) & is.null(input_hidecan()$can))
-      withProgress(message = 'Working:', value = 0, {
-        incProgress(0.5, detail = paste("Uploading example map data..."))        
-        x <- get_example_data()
-        
-        list("GWAS" = list(GWAS_data(x[["GWAS"]])),
-             "DE" = list(DE_data(x[["DE"]])),
-             "CAN" = list(CAN_data(x[["CAN"]])))
+  loadExample <- reactive({
+    if (is.null(input_map()$dosages) & is.null(input_map()$phases) & is.null(input_map()$genetic_map) &
+      is.null(input_map()$mappoly_in) &
+      is.null(input_map()$onemap_in) &
+      is.null(input_map()$polymapR.dataset) &
+      is.null(input_map()$polymapR.map) &
+      is.null(input_qtl()$selected_mks) &
+      is.null(input_qtl()$qtl_info) &
+      is.null(input_qtl()$blups) &
+      is.null(input_qtl()$beta.hat) &
+      is.null(input_qtl()$profile) &
+      is.null(input_qtl()$effects) &
+      is.null(input_qtl()$probs) &
+      is.null(input_qtl()$qtlpoly_data) &
+      is.null(input_qtl()$qtlpoly_remim.mod) &
+      is.null(input_qtl()$qtlpoly_est.effects) &
+      is.null(input_qtl()$qtlpoly_fitted.mod) &
+      is.null(input_qtl()$diaQTL_data) &
+      is.null(input_qtl()$diaQTL_scan1) &
+      is.null(input_qtl()$diaQTL_scan1.summaries) &
+      is.null(input_qtl()$diaQTL_fitQTL) &
+      is.null(input_qtl()$diaQTL_BayesCI) &
+      is.null(input_qtl()$polyqtlR_QTLscan_list) &
+      is.null(input_qtl()$polyqtlR_qtl_info) &
+      is.null(input_qtl()$polyqtlR_effects) &
+      is.null(input_genome()$fasta) &
+      is.null(input_genome()$fasta_server) &
+      is.null(input_genome()$gff3) &
+      is.null(input_genome()$gff3_server) &
+      is.null(input_genome()$vcf) &
+      is.null(input_genome()$vcf_server) &
+      is.null(input_genome()$align) &
+      is.null(input_genome()$align_server) &
+      is.null(input_genome()$wig) &
+      is.null(input_genome()$wig_server) &
+      is.null(input$viewpoly_input) &
+      is.null(input$viewpoly_env)) {
+      withProgress(message = "Working:", value = 0, {
+        incProgress(0.5, detail = paste("Uploading example map data..."))
+        prepare_examples(input$example_map)
       })
-    else NULL
+    } else {
+      NULL
+    }
   })
-  
-  loadViewpoly = reactive({
-    withProgress(message = 'Working:', value = 0, {
+
+  # Load hidecan example
+  loadHidecanExample <- reactive({
+    if (is.null(input_hidecan()$gwas) & is.null(input_hidecan()$de) & is.null(input_hidecan()$can)) {
+      withProgress(message = "Working:", value = 0, {
+        incProgress(0.5, detail = paste("Uploading example map data..."))
+        x <- get_example_data()
+
+        list(
+          "GWAS" = list(GWAS_data(x[["GWAS"]])),
+          "DE" = list(DE_data(x[["DE"]])),
+          "CAN" = list(CAN_data(x[["CAN"]]))
+        )
+      })
+    } else {
+      NULL
+    }
+  })
+
+  loadViewpoly <- reactive({
+    withProgress(message = "Working:", value = 0, {
       incProgress(0.1, detail = paste("Uploading viewpoly file..."))
       if (is.null(values$upload_state_viewpoly)) {
         return(NULL)
-      } else if (values$upload_state_viewpoly == 'reset') {
+      } else if (values$upload_state_viewpoly == "reset") {
         return(NULL)
-      } else if(values$upload_state_viewpoly == "uploaded"){
-        if(is.null(input$viewpoly_input) & is.null(input$viewpoly_env)){ 
+      } else if (values$upload_state_viewpoly == "uploaded") {
+        if (is.null(input$viewpoly_input) & is.null(input$viewpoly_env)) {
           warning("Upload a viewpoly dataset or select one available in your R environment before submit.")
           viewpoly.obj <- NULL
-        } else if(!is.null(input$viewpoly_input)){
+        } else if (!is.null(input$viewpoly_input)) {
           temp123 <- load(input$viewpoly_input$datapath)
           viewpoly.obj <- get(temp123)
-        } else if(!is.null(input$viewpoly_env)) {
-          viewpoly.obj = get(input$viewpoly_env)
-        }  
+        } else if (!is.null(input$viewpoly_env)) {
+          viewpoly.obj <- get(input$viewpoly_env)
+        }
         return(viewpoly.obj)
-      } 
+      }
     })
   })
-  
-  loadMap_custom = reactive({
-    if(!(is.null(input_map()$dosages) & is.null(input_map()$phases) & is.null(input_map()$genetic_map))){
+
+  loadMap_custom <- reactive({
+    if (!(is.null(input_map()$dosages) & is.null(input_map()$phases) & is.null(input_map()$genetic_map))) {
       req(input_map()$dosages, input_map()$phases, input_map()$genetic_map)
-      withProgress(message = 'Working:', value = 0, {
+      withProgress(message = "Working:", value = 0, {
         incProgress(0.5, detail = paste("Uploading custom map data..."))
-        prepare_map_custom_files(input_map()$dosages,
-                                 input_map()$phases,
-                                 input_map()$genetic_map)
+        prepare_map_custom_files(
+          input_map()$dosages,
+          input_map()$phases,
+          input_map()$genetic_map
+        )
       })
-    } else NULL
+    } else {
+      NULL
+    }
   })
-  
-  loadMap_mappoly =  reactive({
-    
-    if(!is.null(input_map()$mappoly_in)){
-      withProgress(message = 'Working:', value = 0, {
+
+  loadMap_mappoly <- reactive({
+    if (!is.null(input_map()$mappoly_in)) {
+      withProgress(message = "Working:", value = 0, {
         incProgress(0.3, detail = paste("Uploading MAPpoly data..."))
         prepare_MAPpoly(input_map()$mappoly_in)
       })
-    } else NULL
+    } else {
+      NULL
+    }
   })
-  
-  loadMap_onemap =  reactive({
-    
-    if(!is.null(input_map()$onemap_in)){
-      withProgress(message = 'Working:', value = 0, {
+
+  loadMap_onemap <- reactive({
+    if (!is.null(input_map()$onemap_in)) {
+      withProgress(message = "Working:", value = 0, {
         incProgress(0.3, detail = paste("Uploading OneMap data..."))
         temp123 <- load(input_map()$onemap_in$datapath)
         viewmap <- get(temp123)
         viewmap
       })
-    } else NULL
+    } else {
+      NULL
+    }
   })
-  
-  loadMap_polymapR =  reactive({
-    if(!(is.null(input_map()$polymapR.dataset) & 
-         is.null(input_map()$polymapR.map))) {
+
+  loadMap_polymapR <- reactive({
+    if (!(is.null(input_map()$polymapR.dataset) &
+      is.null(input_map()$polymapR.map))) {
       req(input_map()$polymapR.dataset, input_map()$polymapR.map)
-      withProgress(message = 'Working:', value = 0, {
+      withProgress(message = "Working:", value = 0, {
         incProgress(0.1, detail = paste("Uploading polymapR data..."))
-        prepare_polymapR(input_map()$polymapR.dataset, input_map()$polymapR.map, 
-                         input$input.type, as.numeric(input$ploidy))
+        prepare_polymapR(
+          input_map()$polymapR.dataset, input_map()$polymapR.map,
+          input$input.type, as.numeric(input$ploidy)
+        )
       })
-    } else NULL
+    } else {
+      NULL
+    }
   })
-  
-  loadQTL_custom = reactive({
-    if(!(is.null(input_qtl()$selected_mks) & 
-         is.null(input_qtl()$qtl_info) & 
-         is.null(input_qtl()$blups) & 
-         is.null(input_qtl()$beta.hat) & 
-         is.null(input_qtl()$profile) & 
-         is.null(input_qtl()$effects) & 
-         is.null(input_qtl()$probs))) {
-      req(input_qtl()$selected_mks, input_qtl()$qtl_info, input_qtl()$blups,
-          input_qtl()$beta.hat, input_qtl()$profile, input_qtl()$effects,
-          input_qtl()$probs)
-      withProgress(message = 'Working:', value = 0, {
+
+  loadQTL_custom <- reactive({
+    if (!(is.null(input_qtl()$selected_mks) &
+      is.null(input_qtl()$qtl_info) &
+      is.null(input_qtl()$blups) &
+      is.null(input_qtl()$beta.hat) &
+      is.null(input_qtl()$profile) &
+      is.null(input_qtl()$effects) &
+      is.null(input_qtl()$probs))) {
+      req(
+        input_qtl()$selected_mks, input_qtl()$qtl_info, input_qtl()$blups,
+        input_qtl()$beta.hat, input_qtl()$profile, input_qtl()$effects,
+        input_qtl()$probs
+      )
+      withProgress(message = "Working:", value = 0, {
         incProgress(0.5, detail = paste("Uploading custom QTL data..."))
-        prepare_qtl_custom_files(input_qtl()$selected_mks,
-                                 input_qtl()$qtl_info,
-                                 input_qtl()$blups,
-                                 input_qtl()$beta.hat,
-                                 input_qtl()$profile,
-                                 input_qtl()$effects,
-                                 input_qtl()$probs)
+        prepare_qtl_custom_files(
+          input_qtl()$selected_mks,
+          input_qtl()$qtl_info,
+          input_qtl()$blups,
+          input_qtl()$beta.hat,
+          input_qtl()$profile,
+          input_qtl()$effects,
+          input_qtl()$probs
+        )
       })
-    } else NULL
+    } else {
+      NULL
+    }
   })
-  
-  loadQTL_qtlpoly = reactive({
-    if(!(is.null(input_qtl()$qtlpoly_data) & 
-         is.null(input_qtl()$qtlpoly_remim.mod) &
-         is.null(input_qtl()$qtlpoly_est.effects) &
-         is.null(input_qtl()$qtlpoly_fitted.mod))) {
-      
-      req(input_qtl()$qtlpoly_data, 
+
+  loadQTL_qtlpoly <- reactive({
+    if (!(is.null(input_qtl()$qtlpoly_data) &
+      is.null(input_qtl()$qtlpoly_remim.mod) &
+      is.null(input_qtl()$qtlpoly_est.effects) &
+      is.null(input_qtl()$qtlpoly_fitted.mod))) {
+      req(
+        input_qtl()$qtlpoly_data,
+        input_qtl()$qtlpoly_remim.mod,
+        input_qtl()$qtlpoly_est.effects,
+        input_qtl()$qtlpoly_fitted.mod
+      )
+
+      withProgress(message = "Working:", value = 0, {
+        incProgress(0.3, detail = paste("Uploading QTLpoly data..."))
+        prepare_QTLpoly(
+          input_qtl()$qtlpoly_data,
           input_qtl()$qtlpoly_remim.mod,
           input_qtl()$qtlpoly_est.effects,
-          input_qtl()$qtlpoly_fitted.mod)
-      
-      withProgress(message = 'Working:', value = 0, {
-        incProgress(0.3, detail = paste("Uploading QTLpoly data..."))
-        prepare_QTLpoly(input_qtl()$qtlpoly_data,
-                        input_qtl()$qtlpoly_remim.mod,
-                        input_qtl()$qtlpoly_est.effects,
-                        input_qtl()$qtlpoly_fitted.mod)
+          input_qtl()$qtlpoly_fitted.mod
+        )
       })
-    } else NULL
+    } else {
+      NULL
+    }
   })
-  
-  loadQTL_diaQTL = reactive({
-    if(!(is.null(input_qtl()$diaQTL_scan1) &
-         is.null(input_qtl()$diaQTL_scan1.summaries) &
-         is.null(input_qtl()$diaQTL_fitQTL) &
-         is.null(input_qtl()$diaQTL_BayesCI))) {
-      
-      req(input_qtl()$diaQTL_scan1,
+
+  loadQTL_diaQTL <- reactive({
+    if (!(is.null(input_qtl()$diaQTL_scan1) &
+      is.null(input_qtl()$diaQTL_scan1.summaries) &
+      is.null(input_qtl()$diaQTL_fitQTL) &
+      is.null(input_qtl()$diaQTL_BayesCI))) {
+      req(
+        input_qtl()$diaQTL_scan1,
+        input_qtl()$diaQTL_scan1.summaries,
+        input_qtl()$diaQTL_fitQTL,
+        input_qtl()$diaQTL_BayesCI
+      )
+
+      withProgress(message = "Working:", value = 0, {
+        incProgress(0.3, detail = paste("Uploading diaQTL data..."))
+        prepare_diaQTL(
+          input_qtl()$diaQTL_scan1,
           input_qtl()$diaQTL_scan1.summaries,
           input_qtl()$diaQTL_fitQTL,
-          input_qtl()$diaQTL_BayesCI)
-      
-      withProgress(message = 'Working:', value = 0, {
-        incProgress(0.3, detail = paste("Uploading diaQTL data..."))
-        prepare_diaQTL(input_qtl()$diaQTL_scan1,
-                       input_qtl()$diaQTL_scan1.summaries,
-                       input_qtl()$diaQTL_fitQTL,
-                       input_qtl()$diaQTL_BayesCI)
+          input_qtl()$diaQTL_BayesCI
+        )
       })
-    } else NULL
+    } else {
+      NULL
+    }
   })
-  
-  loadQTL_polyqtlR = reactive({
-    if(!(is.null(input_qtl()$polyqtlR_QTLscan_list) & 
-         is.null(input_qtl()$polyqtlR_qtl_info) &
-         is.null(input_qtl()$polyqtlR_effects))) {
-      
-      req(input_qtl()$polyqtlR_QTLscan_list,
-          input_qtl()$polyqtlR_qtl_info,
-          input_qtl()$polyqtlR_effects)
-      
-      withProgress(message = 'Working:', value = 0, {
+
+  loadQTL_polyqtlR <- reactive({
+    if (!(is.null(input_qtl()$polyqtlR_QTLscan_list) &
+      is.null(input_qtl()$polyqtlR_qtl_info) &
+      is.null(input_qtl()$polyqtlR_effects))) {
+      req(
+        input_qtl()$polyqtlR_QTLscan_list,
+        input_qtl()$polyqtlR_qtl_info,
+        input_qtl()$polyqtlR_effects
+      )
+
+      withProgress(message = "Working:", value = 0, {
         incProgress(0.3, detail = paste("Uploading polyqtlR data..."))
-        prepare_polyqtlR(input_qtl()$polyqtlR_QTLscan_list,
-                         input_qtl()$polyqtlR_qtl_info,
-                         input_qtl()$polyqtlR_effects)
+        prepare_polyqtlR(
+          input_qtl()$polyqtlR_QTLscan_list,
+          input_qtl()$polyqtlR_qtl_info,
+          input_qtl()$polyqtlR_effects
+        )
       })
-    } else NULL
+    } else {
+      NULL
+    }
   })
-  
+
   temp_dir <- reactive(tempdir())
-  
-  loadJBrowse_fasta = reactive({
-    withProgress(message = 'Working:', value = 0, {
+
+  loadJBrowse_fasta <- reactive({
+    withProgress(message = "Working:", value = 0, {
       incProgress(0.1, detail = paste("Uploading fasta path..."))
-      if(!is.null(input_genome()$fasta) & !is.null(loadMap())){
+      if (!is.null(input_genome()$fasta) & !is.null(loadMap())) {
         # keep fasta name
-        for(i in 1:length(input_genome()$fasta$datapath)){
+        for (i in 1:length(input_genome()$fasta$datapath)) {
           print(file.path(temp_dir(), input_genome()$fasta$name))
-          
-          file.rename(input_genome()$fasta$datapath[i], 
-                      file.path(temp_dir(), input_genome()$fasta$name[i]))
+
+          file.rename(
+            input_genome()$fasta$datapath[i],
+            file.path(temp_dir(), input_genome()$fasta$name[i])
+          )
         }
-        file.path(temp_dir(), sort(input_genome()$fasta$name)[1]) 
-      } else if(!is.null(input_genome()$fasta_server) & !is.null(loadMap())) {
+        file.path(temp_dir(), sort(input_genome()$fasta$name)[1])
+      } else if (!is.null(input_genome()$fasta_server) & !is.null(loadMap())) {
         input_genome()$fasta_server
-      } else if(!is.null(input_genome()$fasta) | !is.null(input_genome()$fasta_server)) {
+      } else if (!is.null(input_genome()$fasta) | !is.null(input_genome()$fasta_server)) {
         warning("Load map data first to use this feature.")
-      } else if(!is.null(loadExample())){
+      } else if (!is.null(loadExample())) {
         loadExample()$fasta
-      } else NULL
+      } else {
+        NULL
+      }
     })
   })
-  
-  loadJBrowse_gff3 = reactive({
-    withProgress(message = 'Working:', value = 0, {
+
+  loadJBrowse_gff3 <- reactive({
+    withProgress(message = "Working:", value = 0, {
       incProgress(0.1, detail = paste("Uploading gff3 path..."))
-      if(!is.null(input_genome()$gff3)){
-        for(i in 1:length(input_genome()$gff3$datapath)){
-          file.rename(input_genome()$gff3$datapath[i], 
-                      file.path(temp_dir(), input_genome()$gff3$name[i]))
+      if (!is.null(input_genome()$gff3)) {
+        for (i in 1:length(input_genome()$gff3$datapath)) {
+          file.rename(
+            input_genome()$gff3$datapath[i],
+            file.path(temp_dir(), input_genome()$gff3$name[i])
+          )
         }
-        file.path(temp_dir(), input_genome()$gff3$name[1]) 
-      } else if(!is.null(input_genome()$gff3_server)) { 
+        file.path(temp_dir(), input_genome()$gff3$name[1])
+      } else if (!is.null(input_genome()$gff3_server)) {
         input_genome()$gff3_server
-      } else if(!is.null(loadExample())){
+      } else if (!is.null(loadExample())) {
         loadExample()$gff3
-      } else NULL
+      } else {
+        NULL
+      }
     })
   })
-  
-  loadJBrowse_vcf = reactive({
-    withProgress(message = 'Working:', value = 0, {
+
+  loadJBrowse_vcf <- reactive({
+    withProgress(message = "Working:", value = 0, {
       incProgress(0.1, detail = paste("Uploading VCF path..."))
-      if(!is.null(input_genome()$vcf)) {
-        for(i in 1:length(input_genome()$vcf$datapath)){
-          file.rename(input_genome()$vcf$datapath[i], 
-                      file.path(temp_dir(), input_genome()$vcf$name[i]))
+      if (!is.null(input_genome()$vcf)) {
+        for (i in 1:length(input_genome()$vcf$datapath)) {
+          file.rename(
+            input_genome()$vcf$datapath[i],
+            file.path(temp_dir(), input_genome()$vcf$name[i])
+          )
         }
-        file.path(temp_dir(), input_genome()$vcf$name[1]) 
-      } else if(!is.null(input_genome()$vcf_server)) {
+        file.path(temp_dir(), input_genome()$vcf$name[1])
+      } else if (!is.null(input_genome()$vcf_server)) {
         input_genome()$vcf_server
-      } else NULL
+      } else {
+        NULL
+      }
     })
   })
-  
-  loadJBrowse_align = reactive({
-    withProgress(message = 'Working:', value = 0, {
+
+  loadJBrowse_align <- reactive({
+    withProgress(message = "Working:", value = 0, {
       incProgress(0.1, detail = paste("Uploading BAM or CRAM alignment data path..."))
-      if(!is.null(input_genome()$align)) {
-        for(i in 1:length(input_genome()$align$datapath)){
-          file.rename(input_genome()$align$datapath[i], 
-                      file.path(temp_dir(), input_genome()$align$name[i]))
+      if (!is.null(input_genome()$align)) {
+        for (i in 1:length(input_genome()$align$datapath)) {
+          file.rename(
+            input_genome()$align$datapath[i],
+            file.path(temp_dir(), input_genome()$align$name[i])
+          )
         }
-        file.path(temp_dir(), input_genome()$align$name[1]) 
-      } else if(!is.null(input_genome()$align_server)) {
+        file.path(temp_dir(), input_genome()$align$name[1])
+      } else if (!is.null(input_genome()$align_server)) {
         input_genome()$align_server
-      } else NULL
+      } else {
+        NULL
+      }
     })
   })
-  
-  loadJBrowse_wig = reactive({
-    withProgress(message = 'Working:', value = 0, {
+
+  loadJBrowse_wig <- reactive({
+    withProgress(message = "Working:", value = 0, {
       incProgress(0.1, detail = paste("Uploading bigWig data path..."))
-      if(!is.null(input_genome()$wig)) {
-        for(i in 1:length(input_genome()$wig$datapath)){
-          file.rename(input_genome()$wig$datapath[i], 
-                      file.path(temp_dir(), input_genome()$wig$name[i]))
+      if (!is.null(input_genome()$wig)) {
+        for (i in 1:length(input_genome()$wig$datapath)) {
+          file.rename(
+            input_genome()$wig$datapath[i],
+            file.path(temp_dir(), input_genome()$wig$name[i])
+          )
         }
-        file.path(temp_dir(), input_genome()$wig$name[1]) 
-      } else if(!is.null(input_genome()$wig_server)) {
+        file.path(temp_dir(), input_genome()$wig$name[1])
+      } else if (!is.null(input_genome()$wig_server)) {
         input_genome()$wig_server
-      } else NULL
+      } else {
+        NULL
+      }
     })
   })
-  
-  loadMap = reactive({
-    if(is.null(loadExample()) & 
-       is.null(loadMap_custom()) & 
-       is.null(loadMap_mappoly()) &
-       is.null(loadMap_onemap()) &
-       is.null(loadMap_polymapR()) &
-       is.null(loadViewpoly())){
+
+  loadMap <- reactive({
+    if (is.null(loadExample()) &
+      is.null(loadMap_custom()) &
+      is.null(loadMap_mappoly()) &
+      is.null(loadMap_onemap()) &
+      is.null(loadMap_polymapR()) &
+      is.null(loadViewpoly())) {
       warning("Select one of the options in `upload` session")
       return(NULL)
-    } else if(!is.null(loadViewpoly())){
+    } else if (!is.null(loadViewpoly())) {
       return(loadViewpoly()$map)
-    } else if(!is.null(loadMap_custom())){
+    } else if (!is.null(loadMap_custom())) {
       return(loadMap_custom())
-    } else if(!is.null(loadMap_mappoly())){
+    } else if (!is.null(loadMap_mappoly())) {
       return(loadMap_mappoly())
-    } else if(!is.null(loadMap_onemap())){
+    } else if (!is.null(loadMap_onemap())) {
       return(loadMap_onemap())
-    } else if(!is.null(loadMap_polymapR())){
+    } else if (!is.null(loadMap_polymapR())) {
       return(loadMap_polymapR())
-    } else if(!is.null(loadExample())){
+    } else if (!is.null(loadExample())) {
       return(loadExample()$map)
     }
   })
-  
-  loadQTL = reactive({
-    if(is.null(loadExample()) & 
-       is.null(loadQTL_custom()) & 
-       is.null(loadQTL_qtlpoly()) & 
-       is.null(loadQTL_diaQTL()) &
-       is.null(loadQTL_polyqtlR()) &
-       is.null(loadViewpoly())){
+
+  loadQTL <- reactive({
+    if (is.null(loadExample()) &
+      is.null(loadQTL_custom()) &
+      is.null(loadQTL_qtlpoly()) &
+      is.null(loadQTL_diaQTL()) &
+      is.null(loadQTL_polyqtlR()) &
+      is.null(loadViewpoly())) {
       warning("Select one of the options in `upload` session")
       return(NULL)
-    } else if(!is.null(loadViewpoly())){
+    } else if (!is.null(loadViewpoly())) {
       return(loadViewpoly()$qtl)
-    } else if(!is.null(loadQTL_custom())){
+    } else if (!is.null(loadQTL_custom())) {
       return(loadQTL_custom())
-    } else if(!is.null(loadQTL_qtlpoly())){
+    } else if (!is.null(loadQTL_qtlpoly())) {
       return(loadQTL_qtlpoly())
-    } else if(!is.null(loadQTL_diaQTL())){
+    } else if (!is.null(loadQTL_diaQTL())) {
       return(loadQTL_diaQTL())
-    } else if(!is.null(loadQTL_polyqtlR())){
+    } else if (!is.null(loadQTL_polyqtlR())) {
       return(loadQTL_polyqtlR())
-    } else if(!is.null(loadExample())){
+    } else if (!is.null(loadExample())) {
       return(loadExample()$qtl)
     }
   })
-  
-  loadHidecan = reactive({
-    if(is.null(loadHidecanExample()) & 
-       is.null(input_hidecan()) & 
-       is.null(loadViewpoly())){
+
+  loadHidecan <- reactive({
+    if (is.null(loadHidecanExample()) &
+      is.null(input_hidecan()) &
+      is.null(loadViewpoly())) {
       warning("Select one of the options in `upload` session")
       return(NULL)
-    } else if(!is.null(loadViewpoly())){
+    } else if (!is.null(loadViewpoly())) {
       return(loadViewpoly()$hidecan)
-    } else if(!is.null(input_hidecan())){
+    } else if (!is.null(input_hidecan())) {
       return(input_hidecan())
-    } else if(!is.null(loadHidecanExample())){
+    } else if (!is.null(loadHidecanExample())) {
       return(loadHidecanExample())
     }
   })
-  
+
   observe({
     if (!is.null(loadMap()) | !is.null(loadQTL())) {
       Sys.sleep(1)
@@ -1101,43 +1282,49 @@ mod_upload_server <- function(input, output, session, parent_session){
       shinyjs::disable("export_viewpoly")
     }
   })
-  
+
   output$export_viewpoly <- downloadHandler(
     filename = function() {
       paste0("viewpoly.RData")
     },
     content = function(file) {
-      withProgress(message = 'Working:', value = 0, {
+      withProgress(message = "Working:", value = 0, {
         incProgress(0.1, detail = paste("Saving viewpoly object..."))
         validate(
-          need(!is.null(loadMap()) | !is.null(loadQTL()), "For exporting VIEWpoly dataset it is required to load 
-               linkage map or QTL data in the above boxes."),
+          need(!is.null(loadMap()) | !is.null(loadQTL()), "For exporting VIEWpoly dataset it is required to load
+               linkage map or QTL data in the above boxes.")
         )
-        obj <- structure(list(map = loadMap(), 
-                              qtl = loadQTL(), 
-                              fasta = NULL, # It would save only the temporary path
-                              gff3 = NULL, 
-                              vcf = NULL,
-                              align = NULL,
-                              wig = NULL,
-                              hidecan = loadHidecan(),
-                              version = packageVersion("viewpoly")), 
-                         class = "viewpoly")
+        obj <- structure(
+          list(
+            map = loadMap(),
+            qtl = loadQTL(),
+            fasta = NULL, # It would save only the temporary path
+            gff3 = NULL,
+            vcf = NULL,
+            align = NULL,
+            wig = NULL,
+            hidecan = loadHidecan(),
+            version = packageVersion("viewpoly")
+          ),
+          class = "viewpoly"
+        )
         assign(input$data.name, obj)
         incProgress(0.5, detail = paste("Saving viewpoly object..."))
       })
       save(list = input$data.name, file = file)
     }
-  )  
-  
-  return(list(loadMap = reactive(loadMap()), 
-              loadQTL = reactive(loadQTL()), 
-              loadJBrowse_fasta = reactive(loadJBrowse_fasta()), 
-              loadJBrowse_gff3 = reactive(loadJBrowse_gff3()), 
-              loadJBrowse_vcf = reactive(loadJBrowse_vcf()),
-              loadJBrowse_align = reactive(loadJBrowse_align()),
-              loadJBrowse_wig = reactive(loadJBrowse_wig()),
-              loadHidecan = reactive(loadHidecan())))
+  )
+
+  return(list(
+    loadMap = reactive(loadMap()),
+    loadQTL = reactive(loadQTL()),
+    loadJBrowse_fasta = reactive(loadJBrowse_fasta()),
+    loadJBrowse_gff3 = reactive(loadJBrowse_gff3()),
+    loadJBrowse_vcf = reactive(loadJBrowse_vcf()),
+    loadJBrowse_align = reactive(loadJBrowse_align()),
+    loadJBrowse_wig = reactive(loadJBrowse_wig()),
+    loadHidecan = reactive(loadHidecan())
+  ))
 }
 
 ## To be copied in the UI

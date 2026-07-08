@@ -1,0 +1,96 @@
+### VIEWpoly Citation
+
+Taniguti, C. H., de Siqueira Gesteira, G., Lau, J., da Silva Pereira, G., Zeng, Z.-B., Byrne, D., Riera-Lizarazu, O., & Mollinari, M. (2022). VIEWpoly: a visualization tool to integrate and explore results of polyploid genetic analysis. Journal of Open Source Software, 7(74), 4242. https://doi.org/10.21105/joss.04242
+
+---
+
+### QTL Analysis Methods
+
+Please cite the appropriate QTL analysis software used:
+
+#### QTLpoly
+
+da Silva Pereira, G., Gemenet, D. C., Mollinari, M., Olukolu, B. A., Wood, J. C., Diaz, F., Mosquera, V., Gruneberg, W. J., Khan, A., Buell, C. R., Yencho, G. C., & Zeng, Z.-B. (2020). Multiple QTL Mapping in Autopolyploids: A Random-Effect Model Approach with Application in a Hexaploid Sweetpotato Full-Sib Population. Genetics, 215(3), 579–595. https://doi.org/10.1534/genetics.120.303080
+
+**Key Features**:
+- Random-effect QTL model for autopolyploids
+- Supports any ploidy level
+- Full-sib population QTL mapping
+- Multiple QTL model selection
+
+---
+
+#### diaQTL
+
+Amadeu, R. R., Muñoz, P. R., Zheng, C., & Endelman, J. B. (2021). QTL mapping in outbred tetraploid (and diploid) diallel populations. Genetics, 219(3). https://doi.org/10.1093/genetics/iyab124
+
+**Key Features**:
+- Diallel analysis in tetraploids
+- Multi-environment QTL mapping
+- Allele dosage-based analysis
+- Breeding value prediction
+
+---
+
+#### polyqtlR
+
+Bourke, P. M., Voorrips, R. E., Hackett, C. A., van Geest, G., Willemsen, J. H., Arens, P., Smulders, M. J. M., Visser, R. G. F., & Maliepaard, C. (2021). Detecting quantitative trait loci and exploring chromosomal pairing in autopolyploids using polyqtlR. Bioinformatics, 37(21), 3822–3829. https://doi.org/10.1093/bioinformatics/btab574
+
+**Key Features**:
+- Haplotype-based QTL mapping
+- Integration with polymapR maps
+- Tetraploid F1 populations
+- IBD-based QTL detection
+
+---
+
+### Visualization Tools
+
+#### Interactive Plots
+
+VIEWqtl uses plotly for interactive visualization:
+
+**Sievert C** (2020). Interactive Web-Based Data Visualization with R, plotly, and shiny. Chapman and Hall/CRC. [https://plotly-r.com](https://plotly-r.com)
+
+#### ggplot2 Graphics
+
+Base plots created with ggplot2:
+
+**Wickham H** (2016). ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag New York. [https://ggplot2.tidyverse.org](https://ggplot2.tidyverse.org)
+
+---
+
+### Related Resources
+
+**Tools for Polyploids**: [https://www.polyploids.org/](https://www.polyploids.org/)
+
+**VIEWpoly Tutorial**: [https://cristianetaniguti.github.io/viewpoly_vignettes/VIEWpoly_tutorial.html](https://cristianetaniguti.github.io/viewpoly_vignettes/VIEWpoly_tutorial.html)
+
+**Breeding Insight**: [https://www.breedinginsight.org](https://www.breedinginsight.org)
+
+### Additional Resources
+
+**VIEWpoly Tutorial**: [https://cristianetaniguti.github.io/viewpoly_vignettes/](https://cristianetaniguti.github.io/viewpoly_vignettes/)
+
+**MAPpoly Tutorial**: [https://rpubs.com/mmollin/tetra_mappoly_vignette](https://rpubs.com/mmollin/tetra_mappoly_vignette)
+
+**QTLpoly Tutorial**: [https://gabrielgesteira.github.io/QTLpoly/docs/1-tutorial](https://gabrielgesteira.github.io/QTLpoly/docs/1-tutorial)
+
+**polyQTLR Tutorial**: [https://cran.r-project.org/web/packages/polyqtlR/vignettes/polyqtlR_vignette.html](https://cran.r-project.org/web/packages/polyqtlR/vignettes/polyqtlR_vignette.html)
+
+**polymapR Tutorial**: [https://cran.r-project.org/web/packages/polymapR/vignettes/Vignette_polymapR.html](https://cran.r-project.org/web/packages/polymapR/vignettes/Vignette_polymapR.html)
+
+**diaQTL Tutorial**: [https://jendelman.github.io/diaQTL/diaQTL_Vignette.html](https://jendelman.github.io/diaQTL/diaQTL_Vignette.html)
+
+**OneMap Tutorial**: [https://cristianetaniguti.github.io/Tutorials/onemap/](https://cristianetaniguti.github.io/Tutorials/onemap/)
+
+
+---
+
+### Reporting Results
+
+When publishing QTL analysis visualized in VIEWqtl, include:
+
+1. VIEWpoly citation for visualization
+2. Original QTL analysis software citation
+3. Linkage map construction method citation

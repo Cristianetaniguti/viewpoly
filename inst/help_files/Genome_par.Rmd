@@ -1,0 +1,204 @@
+## VIEWgenome - Parameters Description
+
+### Select Phenotypes
+
+**Phenotype Selection**:
+- Choose one or multiple traits to visualize
+- Must have QTL analysis loaded
+- Filters QTL and genomic regions to display
+
+---
+
+### Select Linkage Groups
+
+**Linkage Group Selection**:
+- Choose specific chromosomes to explore
+- Correlates with QTL positions
+- Zoom in genome browser view to selected regions
+
+---
+
+### QTL Profile by Linkage Group
+
+Displays the QTL scan profile for the selected chromosome:
+
+**Parameters**:
+- Same as VIEWqtl profile plot
+- Synchronized with genome browser position
+- Interactive selection of QTL peaks
+
+**Features**:
+- Move Map Range to update browser position
+- Zoom into regions of interest
+- Significance score threshold overlay
+
+---
+
+### Linkage Map Position by Physical Position
+
+**Comparative Plot**:
+- Y-axis: Physical position (base pairs)
+- X-axis: Genetic position (centiMorgans)
+- Points: Markers
+
+**Purpose**:
+- Identify recombination rate variation
+- Detect chromosomal rearrangements
+- Compare genetic vs physical distances
+
+**Interpretation**:
+- Linear relationship = uniform recombination
+- Non-linear regions = recombination hotspots/coldspots
+- Inversions appear as reverse slopes
+
+---
+
+### JBrowse Genome Browser
+
+Interactive genome browser powered by JBrowseR:
+
+**Navigation Controls**:
+- **Search box**: Jump to specific coordinates or gene names
+- **Zoom slider**: Adjust resolution
+- **Pan**: Drag to move along chromosome
+- **Chromosome selector**: Switch between chromosomes
+
+**Track Configuration**:
+- Toggle tracks on/off
+- Adjust track height
+- Change display modes
+- Modify color schemes
+
+**View Options**:
+- Linear genome view (default)
+- Multiple region comparison
+- Split view for synteny
+
+---
+
+### Genome Browser Tracks
+
+#### Reference Sequence Track
+
+**FASTA Assembly**:
+- Displays nucleotide sequence at high zoom
+- Shows GC content at low zoom
+- Required for all other tracks
+
+**Configuration**:
+- Upload local `.fasta.gz` with index files
+- Or provide hosted URL for faster loading
+
+---
+
+#### Gene Annotation Track
+
+**GFF3 Features**:
+- Gene models with exon/intron structure
+- CDS (coding sequences)
+- UTRs (untranslated regions)
+- Other genomic features
+
+**Interactions**:
+- Click features for detailed information
+- Hover for quick summary
+- Export feature sequences
+
+---
+
+#### Variant Track
+
+**VCF Data**:
+- SNP and marker positions
+- Allele frequencies (when available)
+- Genotype information
+- Overlaps with map markers
+
+**Filters**:
+- Filter by allele frequency
+- Filter by quality score
+- Show only map markers
+
+---
+
+#### Alignment Track
+
+**BAM/CRAM Files**:
+- Read coverage visualization
+- Individual read alignments
+- Alignment quality metrics
+
+**Display Modes**:
+- Coverage histogram
+- Individual reads
+- Paired-end arc view
+
+---
+
+#### Coverage Track
+
+**BigWig Data**:
+- Continuous coverage values
+- Signal intensity plots
+- Custom value ranges
+
+**Applications**:
+- RNA-seq coverage
+- ChIP-seq signals
+- Other continuous data
+
+---
+
+### QTL Region Annotation Table
+
+**Table Contents**:
+- Genes within QTL confidence intervals
+- Gene ID and name
+- Start and end positions
+- Strand orientation
+- Functional annotations (when available)
+
+**Features**:
+- Sortable columns
+- Search by gene name or ID
+- Filter by position ranges
+- Export to CSV/TSV
+
+**Usage**:
+- Identify candidate genes
+- Explore functional annotations
+- Export gene lists for enrichment analysis
+
+---
+
+### Download Options
+
+**Images**:
+- Genome browser screenshots
+- Profile plots
+- Position comparison plots
+- Formats: PNG, TIFF, JPEG, PDF
+
+**Data**:
+- Annotation table exports
+- Gene lists in CSV/TSV
+- Coordinate files
+
+**Browser Sessions**:
+- Save JBrowse configuration
+- Share with collaborators
+- Reload custom views
+
+---
+
+### Navigation
+
+- **Go to QTL**: Return to QTL analysis view
+- **Go to Map**: Navigate to map visualization
+- **Info button**: Access this help documentation
+
+### Additional Resources
+
+**JBrowse Documentation**: [https://jbrowse.org/jb2/](https://jbrowse.org/jb2/)
+
+**VIEWpoly Tutorial**: [https://cristianetaniguti.github.io/viewpoly_vignettes/](https://cristianetaniguti.github.io/viewpoly_vignettes/)
