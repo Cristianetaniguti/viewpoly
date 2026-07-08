@@ -9,6 +9,9 @@ data/*.RData
 # User-specific files
 .Ruserdata
 
+# macOS files
+.DS_Store
+
 # Example code in package build process
 *-Ex.R
 

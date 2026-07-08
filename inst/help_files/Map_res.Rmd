@@ -1,0 +1,96 @@
+### QTL Profile Results
+
+**Significance Score Display**:
+- Significance scores (LOD or -log10(p-value)) plotted across linkage group
+- Continuous curve showing QTL evidence along chromosome
+- Peaks indicate potential QTL positions
+- Adjust map range to highlight corresponding region on genetic map
+
+---
+
+### Genetic Map Results
+
+**Map Display**:
+- Horizontal representation of linkage groups
+- Marker positions shown as vertical lines along chromosome
+- Genetic distances displayed in centiMorgans (cM)
+- Markers color-coded by SNP base (A, T, C, G)
+
+**Single Linkage Group View**:
+- Detailed view of one chromosome region according to selected map range
+- All markers visible with positions
+
+**Multiple Linkage Group View**:
+- Side-by-side comparison of all linkage groups
+- Compare map lengths across chromosomes
+- Overall genome architecture visible
+- Identify marker distribution patterns
+
+---
+
+### Map Summary Statistics Results
+
+**Global Statistics Displayed**:
+- **Total map length** per linkage group (cM)
+- **Total number of markers** across entire map
+- **Average marker spacing** (mean distance in cM)
+- **Largest gap** between consecutive markers
+- **Marker type distribution**: 
+  - Simplex markers count
+  - Double-simplex markers count
+  - Multiplex markers count
+
+---
+
+### Parental Haplotypes Results
+
+**Haplotype Displayed in Graphic**:
+- Parent 1 and 2 haplotypes shown as colored segments
+- Each row represents a parental haplotype
+- Markers ordered by genetic position along chromosome
+
+**Haplotype Table**:
+- Phased parental haplotypes shown as SNP base table
+- Each parent's haplotypes organized in columns
+- Markers ordered by genetic position (rows)
+- SNP bases (A, T, C, G) displayed for each homolog
+
+---
+
+### Download Results
+
+**Available Exports**:
+
+**Map Images**:
+- High-resolution plots of genetic maps
+- Formats: PNG, TIFF, JPEG, PDF
+- Customizable dimensions for publications
+- Includes QTL overlays if phenotype selected
+
+**Data Tables**:
+- **Map summary statistics**: CSV, Excel, or PDF format
+  - Linkage group information
+  - Marker counts and spacing
+  - Map lengths and gaps
+- **Parental haplotypes**: CSV, Excel, or PDF format
+  - SNP bases for each parent
+  - Marker positions
+  - Haplotype phase information
+
+**Export Uses**:
+- Publication-ready figures
+- Supplementary data tables
+- Further analysis in other software
+- Archive for reproducibility
+
+### Additional Resources
+
+**MAPpoly Tutorial**: [https://mmollina.github.io/MAPpoly/](https://mmollina.github.io/MAPpoly/)
+
+**polymapR Manual**: [https://cran.r-project.org/web/packages/polymapR/](https://cran.r-project.org/web/packages/polymapR/)
+
+**OneMap Documentation**: [https://cran.r-project.org/web/packages/OneMap/](https://cran.r-project.org/web/packages/OneMap/)
+
+**VIEWpoly Tutorial**: [https://cristianetaniguti.github.io/viewpoly_vignettes/](https://cristianetaniguti.github.io/viewpoly_vignettes/)
+
+**Breeding Insight**: [https://www.breedinginsight.org](https://www.breedinginsight.org)

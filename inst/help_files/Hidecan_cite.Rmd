@@ -1,0 +1,45 @@
+## HIDECAN - How to Cite
+
+### VIEWpoly Citation
+
+Taniguti, C. H., de Siqueira Gesteira, G., Lau, J., da Silva Pereira, G., Zeng, Z.-B., Byrne, D., Riera-Lizarazu, O., & Mollinari, M. (2022). VIEWpoly: a visualization tool to integrate and explore results of polyploid genetic analysis. Journal of Open Source Software, 7(74), 4242. https://doi.org/10.21105/joss.04242
+
+---
+
+### HIDECAN Citation
+
+Angelin-Bonnet, O., Vignes, M., Biggs, P. J., Baldwin, S., & Thomson, S. (2024). Visual Integration of Genome-Wide Association Studies and Differential Expression Results with the Hidecan R Package. Genes, 15(10). https://doi.org/10.3390/genes15101244
+
+---
+
+### GWAS Software
+
+Cite the appropriate GWAS software used for analysis:
+
+#### GWASpoly
+
+Rosyara, U. R., de Jong, W. S., Douches, D. S., & Endelman, J. B. (2016). Software for Genome‐Wide Association Studies in Autopolyploids and Its Application to Potato. The Plant Genome, 9(2). https://doi.org/10.3835/plantgenome2015.08.0073
+
+### Reporting HIDECAN Results
+
+When publishing association studies visualized with HIDECAN:
+
+**Methods Section**:
+1. VIEWpoly and HIDECAN citations
+2. GWAS software and version
+3. Statistical model used
+4. Population structure correction method
+5. Significance thresholds applied
+6. Multiple testing correction
+
+---
+
+### Additional Resources
+
+**HIDECAN Documentation**: [https://plantandfoodresearch.github.io/hidecan/](https://plantandfoodresearch.github.io/hidecan/)
+
+**GWASpoly Tutorial**: [https://potatobreeding.cals.wisc.edu/software/](https://potatobreeding.cals.wisc.edu/software/)
+
+**VIEWpoly Tutorial**: [https://cristianetaniguti.github.io/viewpoly_vignettes/](https://cristianetaniguti.github.io/viewpoly_vignettes/)
+
+**Tools for Polyploids**: [https://www.polyploids.org/](https://www.polyploids.org/)

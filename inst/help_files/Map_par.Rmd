@@ -1,0 +1,95 @@
+### Select Phenotypes
+
+**Phenotype Selection**:
+- Choose traits that have QTL analysis results
+- Used to overlay QTL positions on maps
+- Multiple phenotypes can be selected
+
+---
+
+### Select Linkage Groups
+
+**Linkage Group Selection**:
+- Choose which chromosomes to display
+- Single or multiple selection
+- Updates all visualizations dynamically
+
+---
+
+### QTL Profile Plot
+
+**Profile Visualization**:
+- Significance scores across selected linkage group
+- Same interactive features as VIEWqtl
+- Synchronized with map displays
+- Adjust Map range to highlight on map
+
+---
+
+### Genetic Map Visualization
+
+**Map Display Options**:
+
+#### Single Linkage Group View
+- Horizontal representation of one linkage group
+- Marker positions shown as vertical lines
+- Genetic distances in centiMorgans (cM)
+- Color-coded by marker by SNP base
+
+**Interactive Features**:
+- **Zoom**: Focus on specific map regions
+- **Pan**: Navigate along chromosome
+
+#### Multiple Linkage Group Comparison
+- Side-by-side display of multiple linkage groups
+- Compare map lengths and marker distributions
+- Useful for checking map quality across chromosomes
+
+---
+
+### Map Summary Statistics
+
+**Global Statistics**:
+- Total map length per linkage group
+- Total number of markers
+- Average marker spacing
+- Largest gap between markers
+- Number of each type of marker (Simplex, Double-simplex, Multiplex)
+
+**Parents haplotypes**:
+- Phased parental haplotypes SNP bases organized into columns
+- Markers ordered by genetic position and positioned in rows
+
+---
+
+### Download Options
+
+**Maps**:
+- Export map images
+- Formats: PNG, TIFF, JPEG, PDF
+- Customizable dimensions and resolution
+- High-quality for publications
+
+**Data Tables**:
+- Map summary statistics (CSV/Excel/PDF)
+- Parental haplotypes (CSV/Excel/PDF)
+
+---
+ 
+### Navigation
+
+- **Go to Genome**: Navigate to genome browser
+- **Go to HIDECAN**: Navigate to GWAS visualization
+- **Info button**: Access this help documentation
+
+### Additional Resources
+
+**MAPpoly Tutorial**: [https://mmollina.github.io/MAPpoly/](https://mmollina.github.io/MAPpoly/)
+
+**polymapR Manual**: [https://cran.r-project.org/web/packages/polymapR/](https://cran.r-project.org/web/packages/polymapR/)
+
+**OneMap Documentation**: [https://cran.r-project.org/web/packages/OneMap/](https://cran.r-project.org/web/packages/OneMap/)
+
+**VIEWpoly Tutorial**: [https://cristianetaniguti.github.io/viewpoly_vignettes/](https://cristianetaniguti.github.io/viewpoly_vignettes/)
+
+**Breeding Insight**: [https://www.breedinginsight.org](https://www.breedinginsight.org)

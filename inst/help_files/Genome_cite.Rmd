@@ -1,0 +1,35 @@
+### VIEWpoly Citation
+
+Taniguti, C. H., de Siqueira Gesteira, G., Lau, J., da Silva Pereira, G., Zeng, Z.-B., Byrne, D., Riera-Lizarazu, O., & Mollinari, M. (2022). VIEWpoly: a visualization tool to integrate and explore results of polyploid genetic analysis. Journal of Open Source Software, 7(74), 4242. https://doi.org/10.21105/joss.04242
+
+---
+
+### Genome Browser Framework
+
+#### JBrowseR
+
+Hershberg, E. A., Stevens, G., Diesh, C., Xie, P., de Jesus Martinez, T., Buels, R., Stein, L., & Holmes, I. (2021). JBrowseR: an R interface to the JBrowse 2 genome browser. Bioinformatics, 37(21), 3914–3915. https://doi.org/10.1093/bioinformatics/btab459
+
+---
+
+### Reporting Genome Browser Results
+
+When publishing candidate genes identified via VIEWgenome:
+
+**Include**:
+1. VIEWpoly citation for visualization
+2. JBrowseR citation for browser framework
+3. Genome assembly version and citation
+4. Annotation version and source
+5. QTL confidence interval coordinates
+6. Number of genes in intervals
+7. Candidate gene selection criteria
+---
+
+### Additional Resources
+
+**JBrowse Documentation**: [https://jbrowse.org/jb2/](https://jbrowse.org/jb2/)
+
+**VIEWpoly Tutorial**: [https://cristianetaniguti.github.io/viewpoly_vignettes/](https://cristianetaniguti.github.io/viewpoly_vignettes/)
+
+**Breeding Insight**: [https://www.breedinginsight.org](https://www.breedinginsight.org)

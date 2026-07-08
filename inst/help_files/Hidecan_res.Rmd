@@ -1,0 +1,78 @@
+### HIDECAN Plot Display
+
+**Multi-Panel Visualization**:
+- Organized in rows and columns 
+- Each panel represents one chromosome
+- Up to three tracks displayed per chromosome panel:
+  - **GWAS track**: Genome-wide association study results
+  - **DE track**: Differential expression results
+  - **CAN track**: Candidate genes
+- Panel layout customizable (number of rows and columns)
+- Empty chromosomes can be removed or displayed
+
+**Color Coding**:
+- Points colored by score value (if "Colour genes by score" selected)
+- Uniform color for all points (if coloring by score not selected)
+- Custom prefixes distinguish the three tracks
+- Legend shows track types and score ranges
+
+**Visual Features**:
+- Point size adjustable for clarity
+- Labels show gene/marker names
+- Font and label sizes customizable
+- Legend position selectable (top, bottom, left, right)
+
+---
+
+### Multi-Track Integration Results
+
+**Evidence Levels**:
+- **Three tracks converge**: Highest confidence candidates (GWAS + DE + CAN)
+- **Two tracks converge**: Strong candidates (any two of GWAS/DE/CAN)
+- **Single track**: Suggestive evidence requiring validation
+
+**Visual Integration**:
+- Vertical alignment across tracks shows co-localization
+- Same chromosome panel displays all evidence types
+- Easy comparison of different data sources
+- Identifies genomic hotspots with multiple evidence types
+
+---
+
+### Download Options
+
+**Plot Export**:
+- High-resolution HIDECAN plots
+- Formats: PNG, TIFF, JPEG, PDF
+- Customizable dimensions for publications
+- Preserves all visual customization
+
+**Data Tables**:
+- Significant hits from all tracks
+- Genomic coordinates and scores
+- Gene identifiers and annotations
+- Filtered by user-defined thresholds
+
+**Further Analysis**:
+- Gene lists for pathway enrichment
+- Coordinates for genome browser viewing
+- Integration with other VIEWpoly modules
+
+---
+
+### Navigation
+
+- **Go to Map**: Navigate to genetic map visualization
+- **Info button**: Access this help documentation
+
+---
+
+### Additional Resources
+
+**HIDECAN Documentation**: [https://plantandfoodresearch.github.io/hidecan/](https://plantandfoodresearch.github.io/hidecan/)
+
+**GWASpoly Tutorial**: [https://potatobreeding.cals.wisc.edu/software/](https://potatobreeding.cals.wisc.edu/software/)
+
+**VIEWpoly Tutorial**: [https://cristianetaniguti.github.io/viewpoly_vignettes/](https://cristianetaniguti.github.io/viewpoly_vignettes/)
+
+**Tools for Polyploids**: [https://www.polyploids.org/](https://www.polyploids.org/)

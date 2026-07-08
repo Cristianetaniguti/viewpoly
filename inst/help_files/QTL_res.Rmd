@@ -1,0 +1,114 @@
+### QTL Profile Results
+
+The QTL profile plot displays:
+
+**Significance Score Curve**:
+- Continuous line showing QTL evidence across each linkage group
+- Peaks indicate potential QTL positions
+- Higher scores values suggest stronger QTL
+- The significance score is typically a LOD score or -log10(p-value) depending on the QTL analysis software used
+
+**Significance Threshold**:
+- Significant LOD score are indicated by the triangle on the bottom of the plot
+- Threshold is pre-determined by the QTL analysis software used
+- Horizontal lines around the triangle show the confidence interval for the QTL peak
+
+**QTL Markers**:
+- Triangle symbols at detected QTL positions
+- Click to select for detailed analysis
+- Multiple QTL/triangles can be selected simultaneously
+
+---
+
+### QTL Effects Results
+
+**Allelic Effects**:
+- Each bar represents the estimated effect of one parental haplotype on the trait
+- Values indicate the expected change in phenotype
+- Positive values increase the trait
+- Negative values decrease the trait
+
+**Comparison Across QTL**:
+- Effects standardized when viewing multiple QTL (circle)
+- Digenic effects can be visualized via `Alleles combination` 
+
+---
+
+### Haplotype Analysis Results
+
+**Haplotype Blocks**:
+- Colored segments represent different parental haplotypes
+- Each graphic represents a progeny individual
+- Each row corresponds to a parental haplotype herited by the individual
+- Selected QTL position is marked with a dashed vertical line
+- Only individuals contained the selected haplotypes are displayed
+- Recombination events can be visualized by the change in haplotype color along the chromosome
+
+**QTL-Associated Haplotypes**:
+- Haplotypes carrying favorable alleles should be selected
+- Useful for marker-assisted selection
+
+---
+
+### Breeding Values Results
+
+**Individual Rankings**:
+- Individuals ranked by predicted breeding value
+- Higher values indicate better genetic potential
+- Values for each trait selected are represented in different columns
+- Useful for parent selection
+
+---
+
+### QTL Summary Results
+
+**Detected QTL**:
+- Complete list of selected significant QTL
+- Multiple QTL per linkage group possible
+- Organized by phenotype and chromosome
+
+**Position Information**:
+- Genetic position in centiMorgans (cM)
+- Confidence interval bounds
+
+**QTL Statistics**:
+- p-values
+- heritability estimates
+
+---
+
+### Downloadable Results
+
+All visualizations and tables can be exported:
+
+**Plots**:
+- High-resolution images for publications
+- Multiple format options (PNG, TIFF, PDF)
+- Customizable dimensions and resolution
+
+**Tables**:
+- Breeding values for all individuals
+- Complete QTL summary statistics
+- CSV/TSV formats for further analysis
+
+**R Data Objects**:
+- Save plot objects for customization
+- Reload in R for additional analysis
+- Preserve all plot metadata
+
+
+### Additional Resources
+
+**VIEWpoly Tutorial**: [https://cristianetaniguti.github.io/viewpoly_vignettes/](https://cristianetaniguti.github.io/viewpoly_vignettes/)
+
+**MAPpoly Tutorial**: [https://rpubs.com/mmollin/tetra_mappoly_vignette](https://rpubs.com/mmollin/tetra_mappoly_vignette)
+
+**QTLpoly Tutorial**: [https://gabrielgesteira.github.io/QTLpoly/docs/1-tutorial](https://gabrielgesteira.github.io/QTLpoly/docs/1-tutorial)
+
+**polyQTLR Tutorial**: [https://cran.r-project.org/web/packages/polyqtlR/vignettes/polyqtlR_vignette.html](https://cran.r-project.org/web/packages/polyqtlR/vignettes/polyqtlR_vignette.html)
+
+**polymapR Tutorial**: [https://cran.r-project.org/web/packages/polymapR/vignettes/Vignette_polymapR.html](https://cran.r-project.org/web/packages/polymapR/vignettes/Vignette_polymapR.html)
+
+**diaQTL Tutorial**: [https://jendelman.github.io/diaQTL/diaQTL_Vignette.html](https://jendelman.github.io/diaQTL/diaQTL_Vignette.html)
+
+**OneMap Tutorial**: [https://cristianetaniguti.github.io/Tutorials/onemap/](https://cristianetaniguti.github.io/Tutorials/onemap/)

@@ -1,0 +1,51 @@
+## HIDECAN - Parameters Description
+
+### Select Dataset
+
+**Track Selection**:
+- Choose which GWAS, DE, or CAN dataset to visualize
+- Multiple datasets can be loaded simultaneously
+- Switch between datasets to compare results
+
+**Filter by Chromosome**:
+- Display all chromosomes or select specific ones
+- Useful for focusing on candidate regions
+- Reduces visual clutter
+---
+
+### Score Thresholds
+
+**Significance Cutoff**:
+- Set minimum score for displaying associations
+- Higher thresholds = more stringent filtering
+- Default based on significance threshold (e.g., -log10(p-value) > 3)
+- Interactive slider allows real-time adjustment
+
+#### HIDECAN plot options
+
+- Title: Customize plot title
+- Subtitle: Add subtitle for context
+- Number of rows: Adjust number of rows in the plot layout
+- Number of columns: Adjust number of columns in the plot layout
+- GRaphic height: Adjust height of the plot
+- Legend position: Choose where to place the legend (top, bottom, left, right)
+- Point size: Adjust size of points in the plot
+- Font size: Adjust size of text in the plot
+- Label size: Adjust size of labels in the plot
+- Label padding: Adjust spacing around labels
+- Add custom prefix for your 3 tracks: Enter a prefix to distinguish your tracks
+
+Select:
+- Colour genes by score? If yes, the points will be coloured according to their score value. If no, all points will be the same colour.
+- Remove empty chromosomes? If yes, chromosomes with no significant hits will be removed from the plot. If no, all chromosomes will be displayed regardless of significance.
+- Remove empty traits? If yes, traits with no significant hits will be removed from the plot. If no, all traits will be displayed regardless of significance.
+
+### Additional Resources
+
+**HIDECAN Documentation**: [https://plantandfoodresearch.github.io/hidecan/](https://plantandfoodresearch.github.io/hidecan/)
+
+**GWASpoly Tutorial**: [https://potatobreeding.cals.wisc.edu/software/](https://potatobreeding.cals.wisc.edu/software/)
+
+**VIEWpoly Tutorial**: [https://cristianetaniguti.github.io/viewpoly_vignettes/](https://cristianetaniguti.github.io/viewpoly_vignettes/)
+
+**Tools for Polyploids**: [https://www.polyploids.org/](https://www.polyploids.org/)

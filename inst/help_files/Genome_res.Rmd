@@ -1,0 +1,85 @@
+## VIEWgenome - Results Description
+
+### QTL Genomic Context
+
+**Integrated View**:
+- QTL positions mapped to genome assembly
+- Genetic and physical positions aligned
+- Confidence intervals visualized on genome
+
+---
+
+### Gene Annotation Results
+
+**Candidate Genes**:
+- All genes within QTL confidence intervals listed
+- Functional annotations displayed (when available)
+- Gene structure visualized in browser
+
+**Annotation Details**:
+- Gene ID (systematic name)
+- Gene symbol/common name
+- Product description
+- Genomic coordinates
+- Strand orientation
+- Number of exons/introns
+
+**Functional Categories**:
+- GO terms (when available)
+- KEGG pathways
+- InterPro domains
+- Protein families
+
+---
+
+### Recombination Landscape
+
+**Physical vs Genetic Distance**:
+- Recombination rate variation across chromosomes
+- Hotspots and coldspots identified
+
+**Interpretation**:
+- Steep slopes = high recombination
+- Flat regions = suppressed recombination
+- Non-monotonic patterns = structural variants
+
+**Breeding Implications**:
+- Difficult to break linkage in low-recombination regions
+- High-recombination regions allow fine mapping
+- Affects marker-assisted selection strategies
+
+---
+
+### Candidate Gene Prioritization
+
+**Evidence Integration**:
+- Genes within QTL intervals
+- Expression patterns
+- Functional annotations
+
+---
+
+### Troubleshooting
+
+**If genes don't appear**:
+- Check GFF3 file format
+- Verify chromosome naming matches assembly
+- Ensure proper indexing (.tbi files)
+
+**If positions don't match**:
+- Verify same genome version for all files
+- Check coordinate system (0-based vs 1-based)
+- Validate marker positions
+
+**Performance issues**:
+- Use hosted URLs for large files
+- Reduce number of active tracks
+- Zoom to specific regions
+- Clear browser cache
+
+### Additional Resources
+
+**JBrowse Documentation**: [https://jbrowse.org/jb2/](https://jbrowse.org/jb2/)
+
+**VIEWpoly Tutorial**: [https://cristianetaniguti.github.io/viewpoly_vignettes/](https://cristianetaniguti.github.io/viewpoly_vignettes/)
+

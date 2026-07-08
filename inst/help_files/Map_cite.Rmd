@@ -1,0 +1,58 @@
+### VIEWpoly Citation
+
+Taniguti, C. H., de Siqueira Gesteira, G., Lau, J., da Silva Pereira, G., Zeng, Z.-B., Byrne, D., Riera-Lizarazu, O., & Mollinari, M. (2022). VIEWpoly: a visualization tool to integrate and explore results of polyploid genetic analysis. Journal of Open Source Software, 7(74), 4242. https://doi.org/10.21105/joss.04242
+
+---
+
+### Genetic Mapping Software
+
+Please cite the appropriate genetic mapping software used:
+
+#### MAPpoly
+
+Mollinari, M., & Garcia, A. A. F. (2019). Linkage Analysis and Haplotype Phasing in Experimental Autopolyploid Populations with High Ploidy Level Using Hidden Markov Models. G3: Genes|Genomes|Genetics, 9(10), 3297–3314. https://doi.org/10.1534/g3.119.400378
+
+---
+
+#### polymapR
+
+Bourke, P. M., van Geest, G., Voorrips, R. E., Jansen, J., Kranenburg, T., Shahin, A., Visser, R. G. F., Arens, P., Smulders, M. J. M., & Maliepaard, C. (2018). polymapR—linkage analysis and genetic map construction from F1 populations of outcrossing polyploids. Bioinformatics, 34(20), 3496–3502. https://doi.org/10.1093/bioinformatics/bty371
+
+##### OneMap
+
+Taniguti, C. H., Taniguti, L. M., Amadeu, R. R., Lau, J., Gesteira, G. de S., Oliveira, T. de P., Ferreira, G. C., Pereira, G. da S., Byrne, D., Mollinari, M., Riera-Lizarazu, O., & Garcia, A. A. F. (2022). Developing best practices for genotyping-by-sequencing analysis in the construction of linkage maps. GigaScience, 12. https://doi.org/10.1093/gigascience/giad092
+
+---
+
+### Reporting Genetic Map Results
+
+When publishing genetic maps visualized in VIEWmap:
+
+**Include**:
+1. VIEWpoly citation for visualization
+2. MAPpoly, polymapR, or OneMap citation for map construction
+3. Population type and size
+4. Ploidy level
+5. Number of markers and linkage groups
+6. Total map length
+7. Average marker spacing
+
+**Map Quality Metrics**:
+- Segregation distortion patterns
+- Missing data percentage
+- Largest gaps between markers
+- Heat map of recombination fractions (if available)
+
+---
+
+### Additional Resources
+
+**MAPpoly Tutorial**: [https://mmollina.github.io/MAPpoly/](https://mmollina.github.io/MAPpoly/)
+
+**polymapR Manual**: [https://cran.r-project.org/web/packages/polymapR/](https://cran.r-project.org/web/packages/polymapR/)
+
+**OneMap Documentation**: [https://cran.r-project.org/web/packages/OneMap/](https://cran.r-project.org/web/packages/OneMap/)
+
+**VIEWpoly Tutorial**: [https://cristianetaniguti.github.io/viewpoly_vignettes/](https://cristianetaniguti.github.io/viewpoly_vignettes/)
+
+**Breeding Insight**: [https://www.breedinginsight.org](https://www.breedinginsight.org)
